@@ -1,0 +1,476 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0302 
+header_name {.h} 
+code_name {.cpp}
+decl {\#include <iostream>} {private local
+} 
+
+decl {\#include "util.h"} {public local
+} 
+
+decl {\#include "source.h"} {public local
+} 
+
+Function {} {open
+} {
+  code {generate_delegates(TypeBase<Byte>)
+        generate_delegates(TypeBase<UnsignedShort>)
+        generate_delegates(TypeBase<UnsignedInt>)
+        generate_delegates(TypeBase<UnsignedChar>)
+        generate_delegates(TypeBase<Char>)
+        generate_delegates(TypeBase<Int>)
+        generate_delegates(TypeBase<Float>)
+        generate_delegates(TypeBase<Double>)
+        generate_delegates(TypeBase<AppData>)
+        generate_delegates(TypeBase<GPSData>)
+        generate_delegates(TypeBase<UnsignedLong>)
+        generate_delegates(TypeBase<StructTm>)
+        generate_delegates(TypeBase<Time_T>)
+        generate_delegates(TypeBase<ReverseInt>)
+
+        for(auto i : delegates)
+        {
+            //type_table[type_log[i]] = ft[i];
+            //type_word_length[type_log[i]] = wl[i];
+            name_to_delegate[i->name()] = i;
+
+        }
+
+
+
+        //ValueInfo * value_info = new ValueInfo();
+
+        /****** Setup Hex Lookup Vector ******/
+        for(int x = -1; ++x <= 255;)
+        {
+            string temp = umulti_base(x, 16);
+
+            if(temp.length() < 2)
+            {
+                temp = "0" + temp;
+            }
+
+            hex_log.push_back(temp);        // int as index to get hex number represent as string, just for one byte
+            hex_table[hex_log[x]] = x;      // opposite direction mapping use int as result, just for one byte
+        }
+
+        /****** Setup Octal Lookup Vector ******/
+        for(int x = -1; ++x <= 255;)
+        {
+            string temp = umulti_base(x, 8);
+
+            if(temp.length() == 1)
+            {
+                temp = "00" + temp;
+            }
+
+            else if(temp.length() == 2)
+            {
+                temp = "0" + temp;
+            }
+
+            oct_log.push_back(temp);    // just for one byte
+            oct_table[oct_log[x]] = x;  // just for one byte
+        }
+
+        /****** Setup ASCII Lookup Vector ******/
+        string pre [] = {"NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL", "BS", "HT", "NL", "VT", "NP", "CR", "SO", "SI", "DLE", "DC1", "DC2", "DC3", "DC4", "NAK", "SYN", "ETB", "CAN", "EM", "SUB", "ESC", "FS", "GS", "RS", "US", "SPC"};
+
+        for(int x = -1; ++x < 33;)
+        {
+            ascii_log.push_back(pre[x]);
+        }
+
+        for(int x = 32; ++x < 256;)
+        {
+            string temp = "";
+            temp += (char)x;
+            ascii_log.push_back(temp);
+        }
+
+        for(int x = -1; ++x < 256;)
+        {
+            ascii_table[ascii_log[x]] = x;  // just for one byte
+        }} {}
+  Fl_Window file_browser {open
+    xywh {575 331 655 350} type Double resizable non_modal visible
+  } {
+    Fl_Check_Browser choose_files {
+      xywh {0 1 655 310}
+    }
+    Fl_Group {} {open
+      xywh {0 310 655 40} resizable
+    } {
+      Fl_Return_Button {} {
+        label OK
+        xywh {524 319 125 25}
+      }
+      Fl_Button {} {
+        label Cancel
+        xywh {354 319 125 25}
+      }
+    }
+  }
+  Fl_Window window_main {
+    label {The Hex Editor} open
+    xywh {334 108 1015 505} type Double align 80 resizable size_range {800 400 0 0} visible
+  } {
+    Fl_Group {} {
+      label Left
+      xywh {-3 0 722 508} labeltype NO_LABEL resizable
+    } {
+      Fl_Group {} {
+        label Menu
+        xywh {-3 0 721 25} labeltype NO_LABEL
+      } {
+        Fl_Menu_Bar main_menu {
+          label MAIN_MENU
+          xywh {-1 0 720 25} box THIN_UP_BOX down_box THIN_UP_BOX labeltype SHADOW_LABEL
+        } {
+          Submenu {} {
+            label {&File} open
+            xywh {20 20 100 20}
+          } {
+            MenuItem {} {
+              label Open
+              user_data value_info
+              callback open_hex
+              xywh {20 20 100 20} shortcut 0x4006f
+            }
+            MenuItem {} {
+              label {Partial Open}
+              callback open_partial
+              xywh {20 20 100 20} shortcut 0x40070
+            }
+            MenuItem {} {
+              label Save
+              callback save_hex
+              xywh {20 20 100 20} shortcut 0x40073
+            }
+            MenuItem {} {
+              label {Save As}
+              callback save_as_hex
+              xywh {20 20 100 20} shortcut 0x50073
+            }
+            MenuItem {} {
+              label {Partial Save}
+              callback save_partial
+              xywh {20 20 100 20} shortcut 0x50070
+            }
+            MenuItem {} {
+              label Export
+              user_data value_info
+              callback file_export
+              xywh {20 20 100 20} divider
+            }
+            MenuItem {} {
+              label Quit
+              callback quit_hex
+              xywh {20 20 100 20} shortcut 0x40071
+            }
+          }
+          Submenu {} {
+            label {&Edit} open
+            xywh {25 25 100 20}
+          } {
+            MenuItem {} {
+              label Clear
+              callback clear_hex
+              xywh {20 20 100 20} shortcut 0x80063
+            }
+          }
+          Submenu {} {
+            label {&View} open
+            xywh {20 20 100 20}
+          } {
+            MenuItem {} {
+              label Hexadecimal
+              callback view_hex
+              xywh {20 20 100 20} shortcut 0x50068
+            }
+            MenuItem {} {
+              label Octal
+              callback view_octal
+              xywh {20 20 100 20} shortcut 0x5006f
+            }
+          }
+          Submenu {} {
+            label {&Demo} open
+            xywh {20 20 100 20}
+          } {
+            MenuItem {} {
+              label {ASD File Parsing}
+              user_data value_info
+              callback parse_asd
+              xywh {20 20 100 20} shortcut 0x50061
+            }
+          }
+          Submenu {} {
+            label {&Help} open
+            xywh {20 20 100 20}
+          } {
+            MenuItem {} {
+              label About
+              callback show_help
+              xywh {20 20 100 20}
+            }
+          }
+        }
+      }
+      Fl_Group {} {
+        label Edit
+        xywh {-1 25 721 458} labeltype NO_LABEL resizable
+      } {
+        Fl_Group {} {
+          label {Edit window} open
+          xywh {-1 25 722 458} labeltype NO_LABEL resizable
+        } {
+          Fl_Group {} {
+            label Edit open
+            xywh {-1 25 707 458} labeltype NO_LABEL resizable
+          } {
+            Fl_Text_Editor hex_edit {
+              xywh {-1 25 706 458} box GTK_THIN_DOWN_BOX resizable
+            }
+          }
+          Fl_Group {} {
+            label Scroll open
+            xywh {704 25 16 458} labeltype NO_LABEL
+          } {
+            Fl_Scrollbar hex_scroll {
+              xywh {705 27 15 456}
+            }
+          }
+        }
+      }
+      Fl_Group hex_group {
+        label Status
+        xywh {-1 483 721 26} labeltype NO_LABEL
+      } {
+        Fl_Box main_mode {
+          xywh {583 483 138 25} box FLAT_BOX
+        }
+        Fl_Box main_output {
+          xywh {254 483 200 25} box FLAT_BOX
+        }
+        Fl_Box main_status {
+          xywh {456 483 125 25} box FLAT_BOX
+        }
+        Fl_Progress progress_bar {
+          xywh {1 483 250 25} box FLAT_BOX
+        }
+      }
+    }
+    Fl_Group {} {
+      label Control open
+      xywh {719 0 648 508} labeltype NO_LABEL
+    } {
+      Fl_Tabs {} {
+        label TAB open
+        xywh {719 0 648 514} box GTK_THIN_UP_FRAME labeltype NO_LABEL resizable
+      } {
+        Fl_Group {} {
+          label {Byte Edit} open
+          xywh {719 25 306 484} resizable
+        } {
+          Fl_Group {} {
+            label Resizable open
+            xywh {720 25 296 0} labeltype NO_LABEL resizable
+          } {}
+          Fl_Group {} {
+            label {Input Container}
+            xywh {720 25 301 458} labeltype NO_LABEL
+          } {
+            Fl_Group {} {
+              label Input open
+              xywh {720 25 296 458} labeltype NO_LABEL
+            } {
+              Fl_Output hex_out {
+                label Hexadecimal
+                xywh {827 56 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output oct_out {
+                label Octal
+                xywh {827 101 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output bin_out {
+                label Binary
+                xywh {827 145 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output ascii_out {
+                label ASCII
+                xywh {827 185 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output dec_out {
+                label Decimal
+                xywh {827 227 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output etb_out {
+                label {8 bit}
+                xywh {827 272 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Output stb_out {
+                label {6 bit}
+                xywh {827 315 187 25} box GTK_THIN_DOWN_BOX
+              }
+              Fl_Check_Button sign_change {
+                label {Show Values As Signed}
+                xywh {830 359 184 25} down_box DOWN_BOX
+              }
+              Fl_Input _offset_hex {
+                label {Offset in Hex}
+                user_data value_info
+                callback synchronize_offset_to_dec
+                xywh {826 402 187 25} box THIN_DOWN_BOX when 1
+              }
+              Fl_Input _offset_dec {
+                label {Offset in Dec}
+                user_data value_info
+                callback synchronize_offset_to_hex
+                xywh {826 444 187 25} box THIN_DOWN_BOX when 1
+              }
+            }
+          }
+          Fl_Group {} {
+            label button_container open selected
+            xywh {720 482 299 25} labeltype NO_LABEL
+          } {
+            Fl_Button gotooffset {
+              label Go
+              user_data {"offset"}
+              callback goto_offset
+              xywh {914 483 100 23} box THIN_UP_BOX
+            }
+          }
+        }
+        Fl_Group query_field {
+          label {Field Query}
+          user_data value_info
+          callback refresh_offset open
+          xywh {720 25 630 485} hide
+        } {
+          Fl_Group {} {
+            label {Display Container} open
+            xywh {720 25 300 258} labeltype NO_LABEL resizable
+          } {
+            Fl_Text_Display view_header {
+              label header
+              user_data value_info
+              callback refresh_input
+              xywh {720 26 296 258} box NO_BOX labeltype NO_LABEL when 1 resizable
+            }
+          }
+          Fl_Group {} {
+            label Input open
+            xywh {720 284 296 200} labeltype NO_LABEL
+          } {
+            Fl_Input offset_hex {
+              label {Offset in Hex}
+              user_data value_info
+              callback synchronize_offset_to_dec
+              xywh {826 315 187 25} box THIN_DOWN_BOX when 1
+              code0 {offset_hex->value("0X0000B6");}
+            }
+            Fl_Input offset_dec {
+              label {Offset in Dec}
+              user_data value_info
+              callback synchronize_offset_to_hex
+              xywh {826 357 187 25} box THIN_DOWN_BOX when 1
+              code0 {offset_dec->value("182");}
+            }
+            Fl_Input bytes_number {
+              label {Size in Dec}
+              user_data value_info
+              callback restrict_word_length_dec
+              xywh {825 399 187 25} box THIN_DOWN_BOX when 1
+              code0 {char buffer[17];buffer[16] = '\\0';
+                            itoa(name_to_delegate["time_t"]->word_length(), buffer, 10);
+                            bytes_number->value(buffer);}
+            }
+            Fl_Input_Choice field_type {
+              label {Data Type}
+              user_data value_info
+              callback bind_query_type open
+              xywh {825 441 188 25} box THIN_DOWN_BOX when 1
+              code0 {for(auto i : delegates)field_type->add(i->name().c_str());//field_type->add(type_log[i].c_str());
+                            field_type->value(name_to_delegate["time_t"]->name().c_str());}
+            } {}
+          }
+          Fl_Group {} {
+            label {button container} open
+            xywh {720 482 299 23} labeltype NO_LABEL
+          } {
+            Fl_Button getvalue {
+              label {Get Value}
+              user_data value_info
+              callback get_value
+              xywh {811 482 100 23} box THIN_UP_BOX
+            }
+            Fl_Button savevalue {
+              label {Save Info}
+              user_data {"savevalue"}
+              callback save_value
+              xywh {913 482 100 23} box THIN_UP_BOX
+            }
+          }
+        }
+      }
+    }
+  }
+  code {/****** Secondary Setup ******/
+
+
+        //field_type->value("float");
+        //field_type->when(FL_WHEN_CHANGED);
+        field_type->callback((Fl_Callback*)bind_query_type, (void*)(value_info));
+
+        hex_out->color(FL_BACKGROUND_COLOR);
+        oct_out->color(FL_BACKGROUND_COLOR);
+        bin_out->color(FL_BACKGROUND_COLOR);
+        ascii_out->color(FL_BACKGROUND_COLOR);
+        dec_out->color(FL_BACKGROUND_COLOR);
+        etb_out->color(FL_BACKGROUND_COLOR);
+        stb_out->color(FL_BACKGROUND_COLOR);
+        view_header->color(FL_BACKGROUND_COLOR);
+        view_header->wrap_mode(3, 0);   //view_header->wrap_mode(WRAP_AT_BOUNDS, 0);
+        //main_menu->box(FL_UP_BOX);
+        //main_output->box(FL_DOWN_BOX);
+        //main_mode->box(FL_DOWN_BOX);
+        progress_bar->color(FL_BACKGROUND_COLOR);
+        main_mode->label(mode.c_str());
+        //hex_edit->box(FL_PLASTIC_DOWN_BOX);
+        hex_edit->textfont(FL_COURIER);
+
+        hex_buffer->text("");
+        hex_edit->buffer(hex_buffer);
+
+        header_buffer->text("");
+        view_header->buffer(header_buffer);
+        view_header->box(FL_FLAT_BOX);
+        view_header->color(FL_BACKGROUND_COLOR);
+        view_header->align(Fl_Align(FL_ALIGN_LEFT));
+        hex_scroll->linesize(1);
+        hex_scroll->value(0, 0, 0, 1);
+        //main_status->box(FL_DOWN_BOX);
+        sign_change->value(1);
+
+        /****** Add to Hex Editor Group ******/
+        //hex_group = new Fl_Group(0, 0, 800, 600, "");
+        //hex_group->add(hex_edit);
+        //hex_group->end();
+
+        /****** Primary Callbacks ******/
+        hex_buffer->add_modify_callback(update_save, window_main);
+        hex_buffer->call_modify_callbacks();
+        hex_scroll->callback(scroll);
+        sign_change->callback(flip);
+
+        /****** Finish Adding Widgets to Main Window - Display Main Window ******/
+        main_status->label("");} {}
+  code {//window_main->end();
+        //window_main->show(argc, argv);
+        window_main->position((Fl::w()/2 - 400), (Fl::h()/2 - 300));} {}
+} 
+
+Function {make_window()} {open
+} {} 
