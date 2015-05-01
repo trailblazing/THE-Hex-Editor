@@ -304,7 +304,7 @@ char* internal_itoa(int value, char* result, int base)
 
 
 
-// Depreciated, just for learn & test
+// Depreciated, just for learn & test, new implementation use std::localtime(), hughvonyoung@gmail.com
 time_utility get_time_from_seconds(long int const s, long int year_base)
 {
     time_utility u;
