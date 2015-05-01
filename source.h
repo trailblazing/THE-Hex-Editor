@@ -68,8 +68,7 @@ struct Delegate
         this->_word_length = new sd::AgencyRead<const unsigned int>(*o, w);
         this->_word_length_restrict = new sd::AgencyReturn<bool>(*o, _wl);
         this->_value_find = new sd::AgencyReturn<string>(*o, _vf);
-        //set_value = new sd::AgencyInput(*o, _set_value);
-        //this->value = new sd::ioperator_read(*o, _value);
+
     }
     sd::AgencyRead<const string> *_name;
     sd::AgencyRead<const unsigned int> *_word_length;
@@ -77,8 +76,6 @@ struct Delegate
     sd::AgencyReturn<bool> *_word_length_restrict;
     sd::AgencyReturn<string> *_value_find;
 
-    //sd::AgencyInput *set_value;
-    //sd::ioperator_read *value;
     const string name()
     {
         return (*_name)();
@@ -124,20 +121,6 @@ extern int scroll_position, current_file_size;
 extern string favorite_path;
 extern char * const default_file;
 
-//extern int byte_word_length;
-//extern int ushort_word_length;
-//extern int uint_word_length;
-//extern int uchar_word_length;
-//extern int char_word_length;
-//extern int int_word_length;
-//extern int float_word_length;
-//extern int dfloat_word_length;
-//extern int app_data_word_length;
-//extern int gps_data_word_length;
-//extern int ulong_word_length;
-//extern int struct_tm_word_length;
-//extern int time_t_word_length;
-
 extern vector <int> partial_file;
 extern vector <string> hex_log;
 extern vector <string> type_log;
@@ -147,8 +130,6 @@ extern vector <string> oct_log;
 extern vector <string> ascii_log;
 extern vector <string> hex_text;
 extern map <string, int> hex_table;
-//enum Type{Float, Char};
-
 
 extern FT ft[];
 
@@ -183,10 +164,7 @@ extern Fl_Input *offset_hex;
 extern Fl_Input *offset_dec;
 extern Fl_Input *_offset_hex;
 extern Fl_Input *_offset_dec;
-//extern Fl_Input *new_value;
 
-//extern Fl_Input *offset_hex;
-//extern Fl_Input *offset_dec;
 extern Fl_Input *bytes_number;
 extern Fl_Input_Choice *field_type;
 
@@ -322,13 +300,7 @@ extern void synchronize_offset_to_dec(Fl_Input*, void*);
 extern void restrict_word_length_dec(Fl_Input* the, void*);
 extern void restrict_type_string(Fl_Input*, void*);
 
-//extern AgencyRead * type_choose;
-
-//enum Type {BYTE, UNSIGNEDSHORT, UNSIGNEDINT, UNSIGNEDCHAR,CHAR,INT,FLOAT, DOUBLE, APPDATA, GPSDATA, UNSIGNEDLONG, STRUCTTM, TIME_T};
 extern void bind_query_type(Fl_Input_Choice*, void*);
-
-//template<Type T>bool type_find(std::ostringstream *prepared_header_buffer, ValueInfo *value_info);
-//template<Type T>bool type_word_length_restrict(ValueInfo *value_info);
 
 template<typename T>bool restict_word_length(T *_this, ValueInfo *)
 {
@@ -352,8 +324,6 @@ struct TypeBase
 {
     typedef typename T::value_type value_type;
 protected:
-    //const static unsigned int _name = T::name;
-    //const static unsigned int _word_length = T::word_length;
     value_type *_value;
 
 public:
@@ -377,9 +347,6 @@ public:
     {
         return *_value;
     }
-//    void value_in(value_type const _value) {
-//        *value = _value;
-//    }
     bool word_length_restrict(ValueInfo *_value_info)
     {
         return restict_word_length(this, value_info);
@@ -389,8 +356,8 @@ public:
 
 struct Byte
 {
-    typedef unsigned int value_type;//typedef bitset<1> value_type;
-    const static string name;   //const static unsigned int name = Type(BYTE);
+    typedef unsigned int value_type;
+    const static string name;
     const static unsigned int word_length = 1;
 
 };
@@ -398,14 +365,14 @@ struct Byte
 struct UnsignedShort
 {
     typedef unsigned short int value_type;
-    const static string name;   //const static unsigned int name = Type(UNSIGNEDSHORT);
+    const static string name;
     const static unsigned int word_length = 2;
 };
 
 struct UnsignedInt
 {
     typedef unsigned int value_type;
-    const static string name;   //const static unsigned int name = Type(UNSIGNEDINT);
+    const static string name;
     const static unsigned int word_length = 2;
 
 };
@@ -414,7 +381,7 @@ struct UnsignedInt
 struct UnsignedChar
 {
     typedef unsigned char value_type;
-    const static string name;   //const static unsigned int name = Type(UNSIGNEDCHAR);;
+    const static string name;
     const static unsigned int word_length = 1;
 
 };
@@ -422,28 +389,28 @@ struct UnsignedChar
 struct Char
 {
     typedef char value_type;
-    const static string name;   //const static unsigned int name = Type(CHAR);
+    const static string name;
     const static unsigned int word_length = 1;
 };
 
 struct Int
 {
     typedef int value_type;
-    const static string name;   //const static unsigned int name = Type(INT);
+    const static string name;
     const static unsigned int word_length = 2;
 };
 
 struct Float
 {
     typedef float value_type;
-    const static string name;   //const static unsigned int name = Type(FLOAT);
+    const static string name;
     const static unsigned int word_length = 4;
 };
 
 struct Double
 {
     typedef double value_type;
-    const static string name;   //const static unsigned int name = Type(DOUBLE);
+    const static string name;
     const static unsigned int word_length = 8;
 };
 
@@ -451,7 +418,7 @@ struct Double
 struct AppData
 {
     typedef APP_DATA value_type;
-    const static string name;   //const static unsigned int name = Type(APPDATA);
+    const static string name;
     const static unsigned int word_length = 128;
 
 };
@@ -459,14 +426,14 @@ struct AppData
 struct GPSData
 {
     typedef GPS_DATA value_type;
-    const static string name;   //const static unsigned int name = Type(GPSDATA);
+    const static string name;
     const static unsigned int word_length = 56;
 };
 
 struct UnsignedLong
 {
     typedef unsigned long int value_type;
-    const static string name;   //const static unsigned int name = Type(UNSIGNEDLONG);
+    const static string name;
     const static unsigned int word_length = 4;
 };
 
@@ -474,21 +441,21 @@ struct UnsignedLong
 struct StructTm
 {
     typedef _tm value_type;
-    const static string name;   //const static unsigned int name = Type(STRUCTTM);
+    const static string name;
     const static unsigned int word_length = 18;
 };
 
 struct Time_T
 {
     typedef time_t value_type;
-    const static string name;   //const static unsigned int name = Type(TIME_T);
+    const static string name;
     const static unsigned int word_length = 4;
 };
 
 struct ReverseInt
 {
     typedef int value_type;
-    const static string name;   //const static unsigned int name = Type(INT);
+    const static string name;
     const static unsigned int word_length = 2;
 };
 
