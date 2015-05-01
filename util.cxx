@@ -254,62 +254,6 @@ void ftoa(float n, char *res, int afterpoint)//do not work! from: http://www.gee
 
  */
 
-//void strreverse(char* begin, char* end) {
-//
-//	char aux;
-//
-//	while(end>begin)
-//
-//		aux=*end, *end--=*begin, *begin++=aux;
-//
-//}
-//
-//void itoa(int value, char* str, int base) {
-//
-//	static char num[] = "0123456789abcdefghijklmnopqrstuvwxyz";
-//
-//	char* wstr=str;
-//
-//	int sign;
-//
-//	div_t res;
-//
-//
-//
-//	// Validate base
-//
-//	if (base<2 || base>35){ *wstr='\0'; return; }
-//
-//
-//
-//	// Take care of sign
-//
-//	if ((sign=value) < 0) value = -value;
-//
-//
-//
-//	// Conversion. Number is reversed.
-//
-//	do {
-//
-//		res = div(value,base);
-//
-//		*wstr++ = num[res.rem];
-//
-//	}while(value=res.quot);
-//
-//	if(sign<0) *wstr++='-';
-//
-//	*wstr='\0';
-//
-//
-//
-//	// Reverse string
-//
-//	strreverse(str,wstr-1);
-//
-//}
-
 
 /**
  * C++ version 0.4 std::string style "itoa":
@@ -318,30 +262,7 @@ void ftoa(float n, char *res, int afterpoint)//do not work! from: http://www.gee
  * and Brian Hunt
  * http://www.jb.man.ac.uk/~slowe/cpp/itoa.html#newest
  */
-//	std::string itoa(int value, int base) {
-//
-//		std::string buf;
-//
-//		// check that the base if valid
-//		if (base < 2 || base > 16) return buf;
-//
-//		enum { kMaxDigits = 35 };
-//		buf.reserve( kMaxDigits ); // Pre-allocate enough space.
-//
-//		int quotient = value;
-//
-//		// Translating number to string with base:
-//		do {
-//			buf += "0123456789abcdef"[ std::abs( quotient % base ) ];
-//			quotient /= base;
-//		} while ( quotient );
-//
-//		// Append the negative sign
-//		if ( value < 0) buf += '-';
-//
-//		std::reverse( buf.begin(), buf.end() );
-//		return buf;
-//	}
+
 
 /**
  * C++ version 0.4 char* style "itoa":
@@ -383,7 +304,7 @@ char* internal_itoa(int value, char* result, int base)
 
 
 
-
+// Depreciated, just for learn & test
 time_utility get_time_from_seconds(long int const s, long int year_base)
 {
     time_utility u;
@@ -421,22 +342,14 @@ struct_name parse_file_name(string const & t)
     string file_name = "", path = "", name = "", extend = "";
 
     int len = t.length();
-    //char input_file_chain[len + 1];
-    //input_file_chain[len] = '\0';
 
-    //bool found_boundary = false;
-    //int boundary_position = -1;
     int index = -1;
     if(len > 0)
     {
         for(int i = len - 1; i >= 0; i --)
         {
-            //input_file_chain[i] = t.at(i);
-
             if(t.at(i) == '\/' || t.at(i) == '\\')
             {
-                //found_boundary = true;
-                //boundary_position = i;
                 cout << "in circle found i = \t" << i << endl;
                 index  = i;
                 break;
@@ -460,8 +373,7 @@ struct_name parse_file_name(string const & t)
         }
     }
     len = file_name.length();
-    //found_boundary = false;
-    //boundary_position = -1;
+
     index = -1;
 
     if(len > 0)
@@ -470,7 +382,6 @@ struct_name parse_file_name(string const & t)
         {
             if(file_name.at(i) == '.')
             {
-                //found_boundary = true;
                 index = i;
                 break;
             }
