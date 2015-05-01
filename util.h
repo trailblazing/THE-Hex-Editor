@@ -100,35 +100,26 @@ void reverse(char *str, int len);
 int intToStr(int x, char str[], int d);
 void ftoa(float n, char *res, int afterpoint);
 
-//void strreverse(char* begin, char* end);
-//void itoa(int value, char* str, int base);
 char* internal_itoa(int value, char* result, int base);
 
 template<typename S>struct _func_true {
 
     S  v;
     _func_true(S _v) {
-        v = _v;//*v = *_v;  // value assignment from *v = *_v lead terrible wrong(your can explore file system of the hard disk file list)! when I store S * v here;
+        v = _v;
     }
 
 };
 
 template<typename Type>std::ostream & _media_func(std::ostream & out, void * f)
 {
-//    std::ostream a;
-//    a << *static_cast<S*>(v);
-    //out << (Type)(*static_cast<Type*>(v)) << endl;
+
     out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
     out.setf ( std::ios::showbase );                  // activate showbase
-    //std::cout.flags ( std::ios::right | std::ios::hex | std::ios::showbase );
-    //std::cout.width (10);
-    out << showbase // show the 0x prefix
-        << internal // fill between the prefix and the number
-        << std::setfill('0'); // fill with 0s, cant be '\0'
-    //out.width(18);
-    //out << "type_info(Type) =\t"<<std::type_info(static_cast<Type*>(v));
-    //cout << "address of value =\t" << (int*)v << endl;    //same as friend operator <<
-    //cout<< "*static_cast<Type *>((static_cast<_func_true<Type>*>(f))->v) =\t" << (static_cast<_func_true<Type>*>(f))->v<< endl;
+
+    out << showbase                 // show the 0x prefix
+        << internal                 // fill between the prefix and the number
+        << std::setfill('0');       // fill with 0s, cant be '\0'
 
     out <<std::hex << std::setw(18) << std::setfill('0') << (static_cast<_func_true<Type>*>(f))->v; //out << (Type)(*static_cast<Type*>(v)) << endl;
 
@@ -138,25 +129,17 @@ template<typename Type>std::ostream & _media_func(std::ostream & out, void * f)
 
     return out;
 
-    //return a;
 }
 
 template<typename Type>std::ostream & _media_true(std::ostream & out, void * v) // does not work, because of void * point to basic type for example long int lead data lost
 {
-//    std::ostream a;
-//    a << *static_cast<S*>(v);
-    //out << (Type)(*static_cast<Type*>(v)) << endl;
+
     out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
     out.setf ( std::ios::showbase );                  // activate showbase
-    //std::cout.flags ( std::ios::right | std::ios::hex | std::ios::showbase );
-    //std::cout.width (10);
-    out << showbase // show the 0x prefix
-        << internal // fill between the prefix and the number
-        << std::setfill('0'); // fill with 0s, cant be '\0'
-    //out.width(18);
-    //out << "type_info(Type) =\t"<<std::type_info(static_cast<Type*>(v));
-    //cout << "address of value =\t" << (int*)v << endl;    //same as friend operator <<
-    //cout<< "*static_cast<Type*>(v) =\t" << *static_cast<Type*>(v) << endl;
+
+    out << showbase             // show the 0x prefix
+        << internal             // fill between the prefix and the number
+        << std::setfill('0');   // fill with 0s, cant be '\0'
 
     out <<std::hex << std::setw(18) << std::setfill('0') << setprecision(16) << (Type)(*static_cast<Type*>(v)); //out << (Type)(*static_cast<Type*>(v)) << endl;
 
@@ -166,19 +149,16 @@ template<typename Type>std::ostream & _media_true(std::ostream & out, void * v) 
 
     return out;
 
-    //return a;
 }
 
 template<typename T>void _del_func(void* f)
 {
-    //if((void *)0 != f)
     delete static_cast<_func_true<T> *>(f);
 }
 
 struct cheat_hex {
 protected:
 
-    //void * _value;  // an object
     void * _func;
     std::ostream & (* _media)(std::ostream & out, void *);
     void (* _del)(void *);
@@ -190,25 +170,19 @@ public:
 
     template<typename Special>
     cheat_hex(Special value)
-    //:_value(&value)
     {
-        //cout << "(Special)value =\t" <<hex<<(Special)value << endl;
+
         _func = (void *)new _func_true<Special>(value);
-        //_media = _media_true<Special>;
         _media = _media_func<Special>;
         _del = _del_func<Special>;
     }
 
     std::ostream & operator << (std::ostream & out) {
-        //cout << "in member operator <<" << endl;
         return _media(out, _func);
     }
 
     friend inline std::ostream & operator << (std::ostream & out, const cheat_hex & c) {
-        //cout << "in friend operator <<" << endl;
-        //cout << "address of value in friend =\t" << (int*)c._value << endl;
-        //cout << "value =\t" << hex << string(*static_cast<string *>(c._value)) << endl; // dangerous hypothesis, but normally value is right if it's really a string
-        return c._media(out, c._func);  //return c._media(out, c._value);  //
+        return c._media(out, c._func);
     }
 };
 
@@ -224,11 +198,10 @@ std::ostream & operator << (std::ostream & out, const cheat<T> &c)
 
     out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
     out.setf ( std::ios::showbase );                  // activate showbase
-    //std::cout.flags ( std::ios::right | std::ios::hex | std::ios::showbase );
-    //std::cout.width (10);
-    out << showbase // show the 0x prefix
-        << internal // fill between the prefix and the number
-        << std::setfill('0'); // fill with 0s, cant be '\0'
+
+    out << showbase             // show the 0x prefix
+        << internal             // fill between the prefix and the number
+        << std::setfill('0');   // fill with 0s, cant be '\0'
     out.width(18);
     out << std::hex << std::setw(18) << std::setfill('0') << setprecision(16) << c.value;
 
@@ -250,8 +223,7 @@ std::ostream & operator << (std::ostream & out, const vector<T>& v)
             out << (std::basic_ostream<char>)(", ");
     }
     out << (std::basic_ostream<char>)("]");
-    //std::copy(v.begin(), v.end(), std::ostream_iterator<char>(std::cout, " "));   // http://stackoverflow.com/questions/10750057/c-printing-out-the-contents-of-a-vector
-    //std::copy(v.begin(), v.end(), std::ostream_iterator<char>(out, " "));
+
     return out;
 
 }
