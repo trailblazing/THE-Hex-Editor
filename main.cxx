@@ -423,7 +423,6 @@ int main(int argc, char **argv) {
   
           /****** Finish Adding Widgets to Main Window - Display Main Window ******/
           main_status->label("");
-  //window_main->end();
           //window_main->show(argc, argv);
           window_main->position((Fl::w()/2 - 400), (Fl::h()/2 - 300));
   window_main->show(argc, argv);
