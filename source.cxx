@@ -31,27 +31,10 @@ bool from_string(T& t,
     std::istringstream iss(s);
     return !(iss >> f >> t).fail();
 }
-/*
-template <class T>
-bool to_string(std::string& s,
-               const T& t,
-               std::ios_base& (*f)(std::ios_base&))
-{
-    std::istringstream iss(t);
-    return !(iss >> f >> s).fail();
-}
-*/
 
-/****** Main Window ******/
-//Fl_Double_Window *window_main = new Fl_Double_Window(1005, 505, "FLTK window"); charged by main.flp
-//Fl_Window *window = new Fl_Window(800,600);//duplicated
 
 /****** Widget For General Window Stuff *****/
-//Fl_Box *main_output = new Fl_Box(0, 576, 400, 24);
-//Fl_Box *main_mode = new Fl_Box(404, 576, 150, 24);
-//Fl_Box *main_status = new Fl_Box(558, 576, 24, 24);
-//Fl_Progress *progress_bar = new Fl_Progress(586, 576, 210, 24);
-//Fl_Scrollbar *hex_scroll = new Fl_Scrollbar(705, 40, 15, 320);
+
 
 string current_file = "";
 string mode = "Mode : Hexadecimal";
@@ -60,23 +43,9 @@ bool partial = false, stat_change = false;
 int scroll_position = -1, current_file_size = 0;
 
 string favorite_path = ".";
-//string favorite_path = "//run/media/beunprepared/17d365f1-b15c-4d01-a05a-2c44c40bc64a/beunprepared/Documents/working/2014-09-24-asd-00/";
-//char * const default_file = "/run/media/beunprepared/17d365f1-b15c-4d01-a05a-2c44c40bc64a/beunprepared/Documents/working/2014-09-24-asd-00/coding/asd/the/RU 130427123802 Sample 00000.asd";
 
 char * const default_file = "RU 130427123802 Sample 00000.asd";
-//int byte_word_length = 1;
-//int ushort_word_length = 2;
-//int uint_word_length = 2;
-//int uchar_word_length = 1;
-//int char_word_length = 1;
-//int int_word_length = 2;
-//int float_word_length = 4;
-//int dfloat_word_length = 8;
-//int app_data_word_length = 128;
-//int gps_data_word_length = 56;
-//int ulong_word_length = 4;
-//int struct_tm_word_length = 18;
-//int time_t_word_length = 4;
+
 
 const string Byte::name =  "byte";
 const string UnsignedShort::name =  "unsigned short int";
@@ -93,9 +62,8 @@ const string StructTm::name =  "struct tm";
 const string Time_T::name =  "time_t";
 const string ReverseInt::name =  "reverse int";
 const int words_per_line = 8;
-//int lines = hex_edit->h()/fl_height();  // 28.5
-int page_word_count = 162;  // words_per_line * (lines - 2); // 6 * 28 = 168
-//enum Type{Byte, UnsignedShort, UnsignedInt, UnsignedChar,Char,Int,Float, DoubleFloat, APP_DATA, GPS_DATA, UsignedLong, StructTm, Time_t};
+
+int page_word_count = 162; 
 
 vector <int> partial_file;
 vector <string> hex_log;
@@ -113,26 +81,12 @@ map <string, int> ascii_table;
 
 
 /****** Widgets for Hex Editor ******/
-//Fl_Group *hex_group = NULL;
-//Fl_Text_Editor *hex_edit = new Fl_Text_Editor(100,40, 600, 320, "");
+
 Fl_Text_Buffer *hex_buffer = new Fl_Text_Buffer(0);
 Fl_Text_Buffer *header_buffer = new Fl_Text_Buffer(0);
 
 
 ValueInfo *value_info = new ValueInfo();
-
-
-/****** Widgets for Data Analyzer ******/
-//Fl_Output *hex_out = new Fl_Output(100, 370, 160, 24, "Hexadecimal");
-//Fl_Output *oct_out = new Fl_Output(100, 400, 160, 24, "Octal");
-//Fl_Output *bin_out = new Fl_Output(100, 430, 160, 24, "Binary");
-//Fl_Output *ascii_out = new Fl_Output(100, 460, 160, 24, "ASCII");
-//Fl_Output *dec_out = new Fl_Output(100, 490, 160, 24, "Decimal");
-//
-//Fl_Output *etb_out = new Fl_Output(350, 370, 160, 24, "8 bit");
-//Fl_Output *stb_out = new Fl_Output(350, 400, 160, 24, "16 bit");
-
-//Fl_Check_Button *sign_change = new Fl_Check_Button(100, 550, 10, 10, "Show Values As Signed");
 
 /****** Callback Function - Open File Chooser ******/
 void open_hex(Fl_Menu_*, void * launch_file)//void open_hex(Fl_Widget *w)
@@ -157,25 +111,7 @@ void open_hex(Fl_Menu_*, void * launch_file)//void open_hex(Fl_Widget *w)
     }
     else
     {
-        /*
-                int len = string((char*)launch_file).length();
-                string launch_string  = string((char*)launch_file);
-                cout << "launch_string =\t" << launch_string << endl;
-                vector<char> launch(launch_string.begin(), launch_string.end());
-                char launch_chain[len+1];
-                launch_chain[len]= '\0';
-                for(int i = 0; i < len; i ++)launch_chain[i] = launch_string.at(i);
-                cout << "launch_file =\t" << string((char*)launch_file) << endl;
-                cout << "launch_chain =\t" << string(launch_chain) << endl;
-                cout << "launch =\t";
-                for(auto i : launch)cout << i;
-                //for( std::vector<char>::const_iterator i = launch.begin(); i != launch.end(); ++i)
-                //    std::cout << *i;    // work
-                cout << endl;
 
-        */
-        //temp_fcho->value((char *)launch_chain);  // temp_fcho == NULL!
-        //cout << "temp_fcho->value() =\t" << temp_fcho->value() << endl; // lead crash
         struct_name na = parse_file_name((char *)launch_file);
 
         cout << "origin launch_file =\t" << string((char*)launch_file )<< endl;
@@ -191,17 +127,12 @@ void open_hex(Fl_Menu_*, void * launch_file)//void open_hex(Fl_Widget *w)
         unsigned char *mem;
 
         /* If User Did Not Click Cancel Proceed To Process */
-        //if(temp_fcho->value() != NULL) {
-        //    current_file = temp_fcho->value();
+
         if(current_file.length() != 0)
         {
             file.open(current_file.c_str(), ios::binary);
             cout << "open file =\t" << current_file << endl;
-            /*
-                    int j;
-                    cout << "input j for a pause\t";
-                    cin >> j;
-            */
+
             /* If File Can Be Opened */
             if(file.is_open())
             {
@@ -253,8 +184,8 @@ void open_hex(Fl_Menu_*, void * launch_file)//void open_hex(Fl_Widget *w)
                     temp = hex_log[(int)mem[x]];    // so, from unsigned char, use it as int as index in hex_log->map it to a char used in buffer
 
                     /* Split The Total Hex Values Into Screen Chunks - Reduces Memory Needed By Text Editor - Clear Final String */
-                    //if(((x % page_word_count == 0)) && (x != 0) && (x % 6 == 0))    // page_word_count=>126<=6*21->162 <= 6*27
-                    if(((x % page_word_count == 0)) && (x != 0) && (x % words_per_line == 0))    // page_word_count=>126<=6*21->162 <= 6*27
+                    //if(((x % page_word_count == 0)) && (x != 0) && (x % 6 == 0))    		// page_word_count=>126<=6*21->162 <= 6*27
+                    if(((x % page_word_count == 0)) && (x != 0) && (x % words_per_line == 0))   // page_word_count=>126<=6*21->162 <= 6*27
                     {
                         hex_text.push_back(final);
                         final = "";
@@ -306,8 +237,8 @@ void open_hex(Fl_Menu_*, void * launch_file)//void open_hex(Fl_Widget *w)
                 partial = false;
                 scroll_position = 0;
                 hex_scroll->value(0, 0, 0, (hex_text.size() - 1));
-                string label;   //string label = window_main->label();
-                //cout << "label =\t" << label << endl;
+                string label;
+                
                 struct_name na = parse_file_name(current_file);
                 label = "The Hex Editor : " + na.name + "." + na.extend;
                 window_main->label(label.c_str());
@@ -954,21 +885,21 @@ void close_all(Fl_Return_Button*, void*)
 int get_field(const int file_offset, const int field)
 {
     int insert = 0;
-    int range = int(floor((file_offset/page_word_count)));  //    int range = int(floor((file_offset/162)));//page_word_count=>126->162
-    string temp = hex_buffer->text();           //    string temp = hex_buffer->text();
-    hex_text[scroll_position] = temp;           //    hex_text[scroll_position] = temp;
-    hex_buffer->text(hex_text[range].c_str());  //    hex_buffer->text(hex_text[range].c_str());
-    hex_edit->buffer(hex_buffer);               //    hex_edit->buffer(hex_buffer);
-    hex_edit->wrap_mode(-1, words_per_line * 10);                //    hex_edit->wrap_mode(-1, 60);
-    scroll_position = range;                    //    scroll_position = range;
-    hex_scroll->value(scroll_position, 0, 0, (hex_text.size() - 1));//    hex_scroll->value(scroll_position, 0, 0, (hex_text.size() - 1));
+    int range = int(floor((file_offset/page_word_count)));  	//    int range = int(floor((file_offset/162)));//page_word_count=>126->162
+    string temp = hex_buffer->text();           		//    string temp = hex_buffer->text();
+    hex_text[scroll_position] = temp;           		//    hex_text[scroll_position] = temp;
+    hex_buffer->text(hex_text[range].c_str());  		//    hex_buffer->text(hex_text[range].c_str());
+    hex_edit->buffer(hex_buffer);               		//    hex_edit->buffer(hex_buffer);
+    hex_edit->wrap_mode(-1, words_per_line * 10);               //    hex_edit->wrap_mode(-1, 60);
+    scroll_position = range;                    		//    scroll_position = range;
+    hex_scroll->value(scroll_position, 0, 0, (hex_text.size() - 1));		//    hex_scroll->value(scroll_position, 0, 0, (hex_text.size() - 1));
 
     int select_position = abs((range * page_word_count) - file_offset);         //page_word_count=>126->162//    int select_position = abs((range * 162) - file_offset);//126->162
-    int offset_add = 1 + int(floor(select_position/words_per_line));             //    int offset_add = 1 + int(floor(select_position/6));
+    int offset_add = 1 + int(floor(select_position/words_per_line));            //    int offset_add = 1 + int(floor(select_position/6));
 
-    if(select_position != 0)                                        //    if(select_position != 0)
+    if(select_position != 0) 
     {
-        insert = (9 * offset_add) + ((field + 1) * select_position);    //        insert = (9 * offset_add) + ((field + 1) * select_position);
+        insert = (9 * offset_add) + ((field + 1) * select_position);    	//        insert = (9 * offset_add) + ((field + 1) * select_position);
     }
 
     else
@@ -1009,24 +940,7 @@ string find_bytes( vector<unsigned char> *const bytes, const string & bytes_hex_
         int file_offset = numparse(multi_base(where_to_get_byte, "16")), insert = 0;
 
         string test="", test1="";
-        /*
-                int dd;
-                unsigned char  prepare[field_length*dd+1];	// this declaration can work? dd is undetermined?
-                prepare[15]='u';
-                cout<< "prepare[15] =\t" << prepare[15] << endl;	//?
 
-
-        */
-        /*
-        //        unsigned char test_bytes=bytes[0];
-        cout << "sizeof(unsigned char ) =\t"<<sizeof(unsigned char )<<"\tsizeof(char )=\t"<<sizeof(char )<< endl;
-        cout << "sizeof(int)=\t" << sizeof(int) <<"\tsizeof(float)=\t"<<sizeof(float)<<"\tsizeof(unsigned int)=\t"<<sizeof(unsigned int)<< endl;
-        cout << "sizeof(bytes)=\t"<< sizeof(bytes)<<"\tsizeof(bytes[0]) = \t"<<sizeof(bytes[0])<<endl;
-        cout << "sizeof(bytes)/sizeof(bytes[0])=\t"<< sizeof(bytes)/sizeof(bytes[0])<<endl;
-        //        cout << "my_strlen(bytes)=\t" << my_strlen(bytes)<<endl;
-
-        cout << "bytes->size()=\t"<<bytes->size()<<endl;
-        */
         for(int i = 0; i < bytes->size(); i ++)
         {
             /* Go To Offset - Full File Open */
@@ -1053,54 +967,18 @@ string find_bytes( vector<unsigned char> *const bytes, const string & bytes_hex_
 
             if(NULL != bytes)
             {
-//
+
                 string temp_chain = hex_buffer->selection_text();
                 unsigned char temp_char;
 
-//                cout << "temp_chain.at(0) = "<<temp_chain.at(0)<<endl;
-//                cout << "temp_chain.at(1) = "<<temp_chain.at(1)<<endl;
-//                char test_cast = temp_chain.at(1);
-//                cout << "char test_cast = "<< test_cast<<endl;
-//                cout << "char (int)test_cast = "<< (int)test_cast<<endl;	// char '0' => int 48
-
-
-//                // for debug:
-//                cout << "origin temp_chain = "<< temp_chain<<endl;
-//                cout << "char (unsigned int)hex_table[temp_chain] = "<< (unsigned int)hex_table[temp_chain]<<endl; //char '0' => int 0. key point
-//                // reference: http://www.asciivalue.com/index.php
-//                cout << "char (unsigned char)hex_table[temp_chain] = "<< (unsigned char)hex_table[temp_chain]<<endl; //char '0' => int 0
-//
-//				// end for debug
-
                 (*bytes)[i]=(unsigned char)(unsigned int)hex_table[temp_chain];
-
-                //bytes = reinterpret_cast<unsigned char *>(hex_buffer->selection_text());
-                //cout << "find_bytes() ::inner afterhex_table[temp_chain] => (unsigned char)bytes["<<i<<"] = " << (unsigned char)bytes[i] << endl;
-
-                //cout << "find_bytes() ::inner afterhex_table[temp_chain] => (unsigned int)bytes["<<i<<"] = " << (unsigned int)bytes[i] << endl;
-                //cout << "find_bytes() ::inner afterhex_table[temp_chain] => ( int)(*bytes)["<<i<<"] = " << ( int)(*bytes)[i] << endl;
-                //bytes += field_length;
-
 
             }
 
             result += hex_buffer->selection_text(); // result get a char array here!
-            //cout << "find_bytes() ::inner result="<< result<< endl;
-            //cout << "find_bytes() ::inner result.at("<<i*field_length<<")="<< result.at(i*field_length)<< endl;
-            //cout << "find_bytes() ::inner result.at("<<i*field_length+1<<")="<< result.at(i*field_length+1)<< endl;
-            //cout << "*result.at("<<i<<")="<< (char*)result.at(i)<< endl;
-            //cout << "find_bytes() ::**inner sizeof(result)=" << sizeof(result)<< endl<< endl;
-            //cout << endl << endl;
-
             file_offset ++;
         }
-        //bytes -= field_length * field_number;
 
-        //cout << "find_bytes() ::outer result = " << result << endl;//result = hex_buffer->selection_text();
-
-        //cout << endl << endl;
-
-        //cout << "find_bytes() ::outer bytes = " << std::hex(std::istringstream(*bytes)) << endl<< endl;
     }
     return result;
 
@@ -1132,11 +1010,7 @@ void goto_offset(Fl_Button*, void * user_data)//void goto_offset(Fl_Widget *w)
         find_byte = offset_hex->value();
         cout<< "in else find_type =\t"<< find_byte << endl;
     }
-//    int field = 3;
-//    if(mode == "Mode : Hexadecimal")
-//    {
-//        field = 2;
-//    }
+
     vector<unsigned char> result(1);
     find_bytes(&result, find_byte);// 1 is fields number
 
@@ -1191,19 +1065,6 @@ void show_help(Fl_Menu_*, void*)//void show_help(Fl_Widget *w)
     Fl_Text_Buffer *buffer = new Fl_Text_Buffer();
     buffer->text("THE - The Hex Editor\nDerived from \"The Hex Editor 0.0.7\" of (c) Dan Baxter 2009\nMade with FLTK\nVersion : 0.0.8, Sept, 30, 2014\nEmail : beunprepared\@gmail.com");
     info->buffer(buffer);
-    //info->wrap_mode(-1, 60);    // with scroll function
-
-//    Fl_Box *help_info1 = new Fl_Box(25, 20, 450, 100, "HE - Hex Editor                                              ");
-//    Fl_Box *help_info2 = new Fl_Box(25, 35, 450, 100, "Derived from \"The Hex Editor 0.0.7\" of (c) Dan Baxter 2009   ");
-//    Fl_Box *help_info3 = new Fl_Box(25, 50, 450, 100, "Made with FLTK                                               ");
-//    Fl_Box *help_info4 = new Fl_Box(25, 65, 450, 100, "Version : 0.0.1, Sept, 30, 2014                              ");
-//    Fl_Box *help_info5 = new Fl_Box(25, 80, 450, 100, "Email : beunprepared\@gmail.com                               ");
-//    help_info1->align(FL_Left);
-//    help_info2->align(FL_Left);
-//    help_info3->align(FL_Left);
-//    help_info4->align(FL_Left);
-//    help_info5->align(FL_Left);
-
     info->box(FL_FLAT_BOX);
     info->color(FL_BACKGROUND_COLOR);
     info->align(Fl_Align(FL_ALIGN_LEFT));
@@ -1454,14 +1315,9 @@ void update_save(int, int nInserted, int nDeleted,int, const char*, void* v)
 void parse_asd(Fl_Menu_*m, void* file)
 {
 
-    //char * const default_file = (char* const )0;
-
     try
     {
-        //if(0 == file)
         open_hex(m, default_file);
-        //else
-        //open_hex(0, file);
     }
     catch (exception e)
     {
@@ -1474,43 +1330,17 @@ void parse_asd(Fl_Menu_*m, void* file)
 
 void get_value(Fl_Button*, void*v )
 {
-//    ((ValueInfo*)value_info)->offset_hex = offset_hex;
-//    ((ValueInfo*)value_info)->offset_dec = offset_dec;
-//    ((ValueInfo*)value_info)->bytes_number = bytes_number;
-//    ((ValueInfo*)value_info)->field_type = field_type;
-//    ((ValueInfo*)value_info)->header_buffer = header_buffer;
 
     ValueInfo * query_info = (ValueInfo*)v;
-//    string offset_query = query_offset->value();
-//    string number_byte = bytes_number->value();
-//    string type_field  = field_type->value();
 
-    //offset->value(offset_query.c_str());//191
-
-    //cout<< "offset->value() = "<<offset->value()<< endl;
     string offset_info_hex, offset_info_dec;
     int index;
     string field_type_info;
     try
     {
 
-//        if(0 == query_info->offset_hex().length())
-//        {
-//            fl_alert("query_info->offset_hex->value() gets nothing!");
-//            return;
-//        }
-
         if(0 == query_info->offset_hex().length())query_info->offset_hex(fl_input("Input Offset address in Hexadecimal"));
 
-        //if(offset_hex != offset_dec) {  // hard to compare
-
-        //synchronize_offset_to_hex(offset_dec, offset_hex);
-        //synchronize_offset_to_hex(v->offset_dec(), v->offset_hex());    //v->offset_dec()->callback((Fl_Callback*)synchronize_offset_to_hex, v->offset_hex());//
-
-        //synchronize_offset_to_hex(v->offset_dec(), v->_offset_hex());   //v->offset_dec()->callback((Fl_Callback*)synchronize_offset_to_hex, v->_offset_hex());
-        //synchronize_offset_to_hex(v->_offset_hex(), v->_offset_dec());
-
-        //}
         if(0 == query_info->bytes_number())
         {
             index = 1;
@@ -1531,24 +1361,11 @@ void get_value(Fl_Button*, void*v )
     }
     catch(exception e)
     {
-
-        //return;
         throw e;
-
-
     }
 
-
-    //cout << "query_offset->value() =\t"<< query_offset->value()<< endl;
-    //cout << "byte_number->value() =\t"<< bytes_number->value()<< endl;
-    //cout << "query_info->offset_hex->value() =\t" << query_info->offset_hex->value() << endl;
-    //cout << "query_info->bytes_number->value() =\t" << query_info->bytes_number->value() << endl;
-    //cout << "query_info->field_type->value() =\t" << query_info->field_type->value() << endl;
-
-    std::ostringstream prepared_header_buffer;// http://stackoverflow.com/questions/2125880/converting-a-float-to-stdstring-in-c
+    std::ostringstream prepared_header_buffer;
     prepared_header_buffer << "Offset =\t" << query_info->offset_dec() <<"\tValue =\t";
-
-    //type_table[string(field_type->value())](&prepared_header_buffer, (ValueInfo*)value_info);
 
     string _value = name_to_delegate[query_info->field_type()]->value_find(query_info);
 
@@ -1564,9 +1381,8 @@ void get_value(Fl_Button*, void*v )
         buffer_chars[i]=buffer.at(i);
 
     }
-    //cout<< test<< "\t"<<test1<<endl;
-    header_buffer->text(buffer_chars);  // header_buffer->append(wave_length_char);	// append does not accept float value or string
-    //header_buffer->append("; //calibrated starting wavelength in nm:\ntest");
+
+    header_buffer->text(buffer_chars);
 
     offset_hex->hide();
     offset_dec->hide();
@@ -1587,10 +1403,6 @@ void save_value(Fl_Button*, void*)
 void refine_hex(char * const destination, string const &source)
 {
     int len = source.length();
-    //while(source[len++]) {}	// does not work robust
-
-    //cout << "refine_hex::source.length() =\t" << source.length() << endl;
-    //cout << "refine_hex::source =\t" << source << endl;
 
     destination[8] = '\0';
     for(int i = 7; i >= 2; i --)
@@ -1609,42 +1421,12 @@ void refine_hex(char * const destination, string const &source)
     destination[1] = 'X';
     destination[0] = '0';
 
-    //cout << "destination =\t";
-    //for(int i = 0; i < 8; i ++)cout << destination[i];
-    //cout << endl;
 }
 
 void synchronize_offset_to_hex(Fl_Input* the, void*vi)
 {
-    //ValueInfo * vi = (ValueInfo *)_vi;
-
-
-
-//    int real_value = atoi(the->value());
-//
-//    if(real_value < 0)real_value = -real_value;
-//    //if(real_value > current_file_size)real_value = current_file_size;
-//    int word_length = atoi(value_info->bytes_number().c_str());
-//    int left = current_file_size - word_length;
-//    if(0 ==current_file_size||left < 0)real_value = 0;
-//    else if(real_value > left)
-//    {
-//        real_value = left;
-//    }
-//    cout << "real_value =\t" << real_value << endl;
-//
-//    char file_offset_char[8];
-//
-//    internal_itoa(real_value, file_offset_char, 10);
-//    the->value(file_offset_char);
-
     ((ValueInfo *)vi)->offset_dec(the->value());
 
-//    internal_itoa(real_value, file_offset_char, 16);
-//    char refine_char[8];
-//    refine_hex(refine_char, file_offset_char);
-//
-//    brother->value(refine_char);
 }
 
 std::string remove_chars(const std::string& source, const std::string& chars)
@@ -1687,72 +1469,7 @@ std::string keep_chars(const std::string& source, const std::string& chars)
 
 void synchronize_offset_to_dec(Fl_Input* the, void*vi)
 {
-//    ValueInfo * vi = (ValueInfo *)_vi;
-//
-//    char field_range[]= {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','a','b','c','d','e','f'};
-//
-//    string range = field_range;
-//
-//    string temp;
-//    try
-//    {
-//        temp = the->value();
-//        if(temp == "")temp = "0X000000";
-//    }
-//    catch(exception e)
-//    {
-//        throw e;
-//        //return;
-//    }
-//    string where_to_get_byte="";
-//
-//    if (temp.substr(0,1)== "0X")temp = temp.substr(2, temp.length()-1);
-//    cout << "as the->value() =\t" << temp << endl;
-//    where_to_get_byte = keep_chars(temp, field_range);
-//
-//    //cout << "before process where_to_get_byte =\t" << where_to_get_byte << endl;
-//    int i = 0;
-//    while(i < where_to_get_byte.length() && ('0' == where_to_get_byte.at(i++))) {}	// remove '0' before effective numbers
-//    where_to_get_byte = where_to_get_byte.substr(i-1, where_to_get_byte.length()-1);
-//
-//    cout << "before process where_to_get_byte =\t" << where_to_get_byte << endl;
-//    if(where_to_get_byte.length() > 6)where_to_get_byte = where_to_get_byte.substr(0, 5);
-//
-//
-//    int file_offset = numparse(multi_base(where_to_get_byte, "16"));
-//    //std::string s = std::to_string(file_offset);
-//
-//
-//    char buffer[7];	// no "0X" mark
-//
-//    if(file_offset > current_file_size)
-//    {
-//        file_offset = current_file_size;
-//        internal_itoa(file_offset, buffer, 16);
-//        cout<< "over trunk::buffer[6] =\t" << string(buffer)<<endl;
-//        buffer[6] = '\0';
-//    }
-//    else
-//    {
-//
-//        for(int i = 0; i < where_to_get_byte.length(); i ++)
-//        {
-//            buffer[i] = where_to_get_byte.at(i);
-//        }
-//        buffer[where_to_get_byte.length()] = '\0';
-//        cout<< "direct::buffer[6] =\t" << string(buffer)<<endl;
-//    }
-//    cout << "file_offset =\t" << file_offset << endl;
-//
-//    char refined[9];
-//    refined[8] = '\0';
-//    refine_hex(refined, buffer);
-//    //the->value(refined);
-//    vi->offset_dec(string(refined));
     ((ValueInfo *)vi)->offset_hex(the->value());
-    //internal_itoa(file_offset, refined, 10);
-    //vi->offset_dec(string(refined));
-
 }
 
 
@@ -1772,22 +1489,11 @@ template<typename T>string value_find_reverse_template(T *the, ValueInfo *v)
 
     cout << "calling data type parse function : \t" << the->name() << endl;
 
-    const int _word_length = the->word_length();   //name_to_delegate[string(((ValueInfo*)v)->field_type()->value())]->word_length();
+    const int _word_length = the->word_length();
     cout << "word_length =\t" << _word_length << endl;
     vector<unsigned char> bytes(_word_length);
 
     string _value_string = find_bytes(&bytes, ((ValueInfo*)v)->offset_hex()); // just get one word
-
-    //unsigned char byte_chars[_word_length];
-
-    //cout << "byte_chars =\t";
-    //for(int i = _word_length - 1; i >= 0 ; i --)
-    //{
-    //    byte_chars[(_word_length - 1) - i] = bytes[i];
-    //    cout << hex_log[(int)byte_chars[(_word_length - 1) - i]] << " ";//(int) bytes[i];
-
-    //}//for(int i=0; i< 4; i++)byte_chars[i] = bytes[i];
-    //cout << endl;
 
     const size_t union_length = sizeof(typename T::value_type);
     cout << "union_length =\t" << union_length << endl;
@@ -1795,36 +1501,31 @@ template<typename T>string value_find_reverse_template(T *the, ValueInfo *v)
     {
         unsigned char origin[union_length];
         typename T::value_type f;
-    } switcheroo;	// worked, good way
+    } switcheroo;
 
     if(_word_length < union_length)
     {
         for(int i = 0; i < _word_length; i ++)
         {
-            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];	// byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = bytes[i];
         }
-        //cout << "sizeof(union_length) =\t" << cheat_hex(union_length) << endl;
+
         for(int i = _word_length; i < union_length; i ++)
         {
-
-            switcheroo.origin[i] = '\0';  //atoi(hex_log[(int)byte_chars[i]].c_str());
-
+            switcheroo.origin[i] = '\0';
         }
     }
     else if(_word_length == union_length)
     {
         for(int i = 0; i < _word_length; i ++)
         {
-            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];	//  byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = bytes[i];
         }
 
     }
-    //unsigned char byte_temp[]= {0XF7,0X26,0X7C, 0X51};
-    typename T::value_type _value = *reinterpret_cast<typename T::value_type*>(switcheroo.origin);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
 
-    //cout << "byte_temp[] =\t" << cheat_hex(byte_temp) << endl;
+    typename T::value_type _value = *reinterpret_cast<typename T::value_type*>(switcheroo.origin);
+
     cout << "union version in hex from cheat_hex =\t" << cheat_hex(switcheroo.f ) << endl;
     cout << "union version in hex from cheat<long int> =\t" << cheat<typename T::value_type>(switcheroo.f ) << endl;
     cout << "union version in dec =\t" << switcheroo.f << endl;
@@ -1836,10 +1537,6 @@ template<typename T>string value_find_reverse_template(T *the, ValueInfo *v)
     std::ostringstream ss;
     ss << setprecision(16) << _value;
     std::string s(ss.str());
-    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-
-    //*prepared_header_buffer << _value;
-
 
     return s;
 }
@@ -1849,41 +1546,31 @@ template<typename T>string value_find_template(T *the, ValueInfo *v)
 
     cout << "calling data type parse function : \t" << the->name() << endl;
 
-    const int _word_length = the->word_length();   //name_to_delegate[string(((ValueInfo*)v)->field_type()->value())]->word_length();
+    const int _word_length = the->word_length();
     cout << "word_length =\t" << _word_length << endl;
-    vector<unsigned char> bytes(_word_length);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // just get one word
+    vector<unsigned char> bytes(_word_length);
 
     string _value_string = find_bytes(&bytes, ((ValueInfo*)v)->offset_hex()); // just get one word
 
-    //unsigned char byte_chars[_word_length];
-
-    //cout << "byte_chars =\t";
-    //for(int i = 0; i < _word_length; i ++)
-    //{
-    //    byte_chars[i] = bytes[i];
-    //    cout << hex << (int)byte_chars[i] << " ";   // << hex_log[(int)byte_chars[i]] << " ";
-    //}
-    //cout << endl;
     const size_t union_length = sizeof(typename T::value_type);
     cout << "union_length =\t" << union_length << endl;
     union
     {
         unsigned char origin[union_length];
         typename T::value_type f;
-    } switcheroo;	// worked, good way
+    } switcheroo;
 
     if(_word_length < union_length)
     {
         for(int i = 0; i < _word_length; i ++)
         {
-            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];	// byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = bytes[i];
         }
-        //cout << "sizeof(union_length) =\t" << cheat_hex(union_length) << endl;
+        
         for(int i = _word_length; i < union_length; i ++)
         {
 
-            switcheroo.origin[i] = '\0';  //atoi(hex_log[(int)byte_chars[i]].c_str());
+            switcheroo.origin[i] = '\0'; 
 
         }
     }
@@ -1891,15 +1578,13 @@ template<typename T>string value_find_template(T *the, ValueInfo *v)
     {
         for(int i = 0; i < _word_length; i ++)
         {
-            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];	// byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = bytes[i];
         }
 
     }
-    //unsigned char byte_temp[]= {0XF7,0X26,0X7C, 0X51};
-    typename T::value_type _value = *reinterpret_cast<typename T::value_type*>(switcheroo.origin);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
-
-    //cout << "byte_temp[] =\t" << cheat_hex(byte_temp) << endl;
+    
+    typename T::value_type _value = *reinterpret_cast<typename T::value_type*>(switcheroo.origin);
+    
     cout << "union version in hex from cheat_hex =\t" << cheat_hex(switcheroo.f ) << endl;
     cout << "union version in hex from cheat<long int> =\t" << cheat<typename T::value_type>(switcheroo.f ) << endl;
     cout << "union version in dec =\t" << switcheroo.f << endl;
@@ -1911,76 +1596,12 @@ template<typename T>string value_find_template(T *the, ValueInfo *v)
     std::ostringstream ss;
     ss << setprecision(16) << _value;
     std::string s(ss.str());
-    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-
-    //*prepared_header_buffer << _value;
-
 
     return s;
 }
 
-template<>string TypeBase<Byte>::value_find(ValueInfo *v)//string Byte::value_find(ValueInfo *value_info)//never use this value_info, get wrong number always
+template<>string TypeBase<Byte>::value_find(ValueInfo *v)
 {
-//    cout << "calling data type parse function : \t" << this->name() << endl;
-//
-//    const int _word_length = name_to_delegate[string(((ValueInfo*)v)->field_type()->value())]->word_length();
-//    const int real_hex_count = _word_length *2;   // ?
-//    cout << "_word_length =\t" << _word_length << endl;
-//    cout << "real_hex_count =\t" << real_hex_count << endl;
-//    vector<unsigned char> bytes(_word_length);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // just get one word
-//
-//    string _value_string = find_bytes(&bytes, ((ValueInfo*)v)->offset_hex()->value()); // just get one word
-//    //cout << "after processed out of find_bytes () bytes=" << bytes << endl;//you can not display a array from this command
-//
-//    unsigned char byte_chars[_word_length];
-//
-//    cout << "byte_chars =\t";
-//    for(int i = 0; i < _word_length; i ++) {
-//        byte_chars[i] = bytes[i];
-//        cout << hex << (int)byte_chars[i] << " ";   // << hex_log[(int)byte_chars[i]] << " ";
-//    }
-//    cout << endl;
-//    const size_t union_length = sizeof(unsigned long int);
-//    union {
-//        unsigned char origin[union_length];
-//        unsigned long int f;
-//    } switcheroo;	// worked, good way
-//
-//    if(_word_length < union_length) {
-//        for(int i = 0; i < _word_length; i ++) {
-//            //ostringstream ss;
-//            //ss << "byte_chars[" << i << "]";
-//            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-//            switcheroo.origin[i] = byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
-//        }
-//        cout << "sizeof(long int) =\t" << cheat_hex(union_length) << endl;
-//        for(int i = _word_length; i < union_length; i ++) {
-//
-//            switcheroo.origin[i] = '\0';  //atoi(hex_log[(int)byte_chars[i]].c_str());
-//
-//        }
-//    }
-//    //unsigned char byte_temp[]= {0XF7,0X26,0X7C, 0X51};
-//    unsigned long int _value = *reinterpret_cast<unsigned long int*>(switcheroo.origin);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
-//
-//    //cout << "byte_temp[] =\t" << cheat_hex(byte_temp) << endl;
-//    cout << "union version in hex from cheat_hex =\t" << cheat_hex(switcheroo.f ) << endl;
-//    //cout << "union version in hex from cheat<long int> =\t" << cheat<unsigned long int>(switcheroo.f ) << endl;
-//    cout << "union version in dec =\t" << switcheroo.f << endl;
-//
-//    cout << "reinterpret_cast value in hex from cheat_hex =\t" << cheat_hex(_value ) << endl;
-//    //cout << "reinterpret_cast value in hex from cheat<long int> =\t" << cheat<unsigned long int>(_value ) << endl;
-//    cout << "reinterpret_cast value in dec =\t" << _value << endl;
-//
-//    std::ostringstream ss;
-//    ss << _value;
-//    std::string s(ss.str());
-//    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-//
-//    //*prepared_header_buffer << _value;
-//
-//
-//    return s;
     return value_find_template(this, v);
 }
 
@@ -1988,52 +1609,11 @@ template<>string TypeBase<Byte>::value_find(ValueInfo *v)//string Byte::value_fi
 template<>string TypeBase<UnsignedShort>::value_find(ValueInfo *v)
 {
     return value_find_template(this, v);
-    //return name_to_delegate[string("byte")]->value_find(v);
+    
 }
 
 template<>string TypeBase<UnsignedInt>::value_find(ValueInfo *v)
 {
-//    cout << "calling value_find<UnsignedInt>" << endl;
-//
-//    unsigned int uint_word_length = this->word_length();
-//    vector<unsigned char> bytes(uint_word_length);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // temporary get one word
-//
-//    string _value_string = find_bytes(&bytes, value_info->offset_hex()->value()); // just get one word
-//    //cout << "after processed out of find_bytes () bytes=" << bytes << endl;//you can not display a array from this command
-//    cout << "_value_string =\t" << _value_string << endl;
-//    if(uint_word_length < 4) {
-//        for(int i = 0; i < 4-uint_word_length; i ++)
-//            bytes.push_back(0X00);
-//    }
-//    unsigned char byte_chars[4];
-//    cout << "byte_chars =\t";
-//    for(int i=4-1; i>=0 ; i--) {
-//
-//        byte_chars[(4-1)-i] = bytes[i];
-//        cout <<hex_log[(int)byte_chars[(4-1)-i]]<<" ";//(int) bytes[i];
-//
-//    }//for(int i=0; i< 4; i++)byte_chars[i] = bytes[i];
-//    cout << endl;
-//    unsigned int _value = *reinterpret_cast<unsigned int*>(byte_chars);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
-//
-//
-//    union {
-//        unsigned char origin[4];
-//        unsigned int f;
-//    } switcheroo;	// worked, good way
-//
-//    for(int i = 0; i < 4; i ++)switcheroo.origin[i] = bytes[i];
-//    cout << "union version =\t" << switcheroo.f << endl;
-//
-//    cout << "unsigned int =\t" << _value << endl;
-//    char buffer[10];
-//    internal_itoa((int)switcheroo.f,buffer, 10);
-//    //header_buffer->append(buffer);
-//
-//    // (*prepared_header_buffer) << switcheroo.f;// _value;
-//
-//
-//    return string(buffer);
 
     return value_find_template(this, v);
 
@@ -2061,64 +1641,6 @@ template<>string TypeBase<Int>::value_find(ValueInfo *v)
 
 template<>string TypeBase<Float>::value_find(ValueInfo *v)
 {
-//
-//    unsigned int float_word_length = this->word_length();
-//
-//    cout << "calling value_find<Float>" << endl;
-//    int real_hex_count = float_word_length*2;   // ?
-//    cout << "float_word_length=\t" << float_word_length << endl;
-//    vector<unsigned char> bytes(float_word_length);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // just get one word
-//
-//    string _value_string = find_bytes(&bytes, value_info->offset_hex()->value()); // just get one word
-//    //cout << "after processed out of find_bytes () bytes=" << bytes << endl;//you can not display a array from this command
-//
-//
-//    unsigned char byte_chars[float_word_length];
-//    cout << "byte_chars =\t";
-//    for(int i=0; i< float_word_length; i++) {
-//        byte_chars[i] = bytes[i];
-//        cout << hex_log[(int)byte_chars[i]] << " ";
-//    }
-//    cout << endl;
-//    float _value = *reinterpret_cast<float*>(byte_chars);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
-//
-//
-//    union {
-//        unsigned char origin[4];
-//        float f;
-//    } switcheroo;	// worked, good way
-//
-//    for(int i = 0; i < 4; i ++)switcheroo.origin[i] = byte_chars[i];
-//    cout << "union version =\t" << switcheroo.f << endl;
-//
-//    cout << "float value =\t" << _value << endl;
-//
-//    std::ostringstream ss;
-//    ss << _value;
-//    std::string s(ss.str());
-//    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-//
-//    //*prepared_header_buffer << _value;
-//
-//    /*
-//
-//
-//
-//    Unless you're worried about performance, use string streams:
-//
-//    std::ostringstream ss;
-//    ss << myFloat;
-//    std::string s(ss.str());
-//
-//    If you're okay with Boost, lexical_cast<> is a convenient alternative:
-//
-//    std::string s = boost::lexical_cast<std::string>(myFloat);
-//
-//    http://stackoverflow.com/questions/2125880/converting-a-float-to-stdstring-in-c
-//
-//    */
-//
-//    return s;
 
     return value_find_template(this, v);
 
@@ -2128,45 +1650,6 @@ template<>string TypeBase<Float>::value_find(ValueInfo *v)
 
 template<>string TypeBase<Double>::value_find(ValueInfo *v)
 {
-
-//
-//    cout << "calling value_find<Double>" << endl;
-//
-//    int real_hex_count = 8;   // ?
-//
-//    vector<unsigned char> bytes(8);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // just get one word
-//
-//    string _value_string = find_bytes(&bytes, value_info->offset_hex()->value()); // just get one word
-//    //cout << "after processed out of find_bytes () bytes=" << bytes << endl;//you can not display a array from this command
-//
-//
-//    unsigned char byte_chars[8];
-//    cout << "byte_chars =\t";
-//    for(int i = 0; i < 8; i ++) {
-//        byte_chars[i] = bytes[i];
-//        cout << hex_log[(int)byte_chars[i]] << " ";
-//    }
-//    cout << endl;
-//    double _value = *reinterpret_cast<double*>(byte_chars);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
-//
-//
-//    union {
-//        unsigned char origin[8];
-//        double f;
-//    } switcheroo;	// worked, good way
-//
-//    for(int i = 0; i < 8; i ++)switcheroo.origin[i] = byte_chars[i];   //?
-//    cout << "union version =\t" <<std::setprecision(16) <<switcheroo.f << endl;
-//
-//    cout << "string version =\t" << _value << endl;
-//
-//    std::ostringstream ss;
-//    ss << setprecision(16) << switcheroo.f;
-//    std::string s(ss.str());
-//    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-//
-//    //*prepared_header_buffer << _value;
-//    return s;
 
     return value_find_template(this, v);
 
@@ -2212,10 +1695,6 @@ template<>string TypeBase<StructTm>::value_find(ValueInfo *v)
         buffer[16] = '\0';
         internal_itoa(offset_dec, buffer, 10);
         v->offset_dec(string(buffer));
-        //synchronize_offset_to_hex(v->offset_dec(), v->offset_hex());    //v->offset_dec()->callback((Fl_Callback*)synchronize_offset_to_hex, v->offset_hex());//
-
-        //synchronize_offset_to_hex(v->offset_dec(), v->_offset_hex());   //v->offset_dec()->callback((Fl_Callback*)synchronize_offset_to_hex, v->_offset_hex());
-        //synchronize_offset_to_hex(v->_offset_hex(), v->_offset_dec());
 
         Delegate * del = name_to_delegate[parse_type];
         string temp  = del->value_find(v);
@@ -2275,17 +1754,7 @@ template<>string TypeBase<Time_T>::value_find(ValueInfo *v)
     vector<unsigned char> bytes(_word_length);//vector<unsigned char> bytes(atoi(value_info->bytes_number->value())); // just get one word
 
     string _value_string = find_bytes(&bytes, ((ValueInfo*)v)->offset_hex()); // just get one word
-    //cout << "after processed out of find_bytes () bytes=" << bytes << endl;//you can not display a array from this command
 
-    //unsigned char byte_chars[_word_length];
-
-    //cout << "byte_chars =\t";
-    //for(int i = 0; i < _word_length; i ++)
-    //{
-    //    byte_chars[i] = bytes[i];
-    //    cout << hex << (int)byte_chars[i] << " ";   // << hex_log[(int)byte_chars[i]] << " ";
-    //}
-    //cout << endl;
     const size_t union_length = sizeof(unsigned long int);
     union
     {
@@ -2297,14 +1766,13 @@ template<>string TypeBase<Time_T>::value_find(ValueInfo *v)
     {
         for(int i = 0; i < _word_length; i ++)
         {
-            //cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];// byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = bytes[i];
         }
         cout << "sizeof(long int) =\t" << cheat_hex(union_length) << endl;
         for(int i = _word_length; i < union_length; i ++)
         {
 
-			switcheroo.origin[i] = '\0';  //atoi(hex_log[(int)byte_chars[i]].c_str());
+		switcheroo.origin[i] = '\0';
 
         }
     }
@@ -2312,36 +1780,23 @@ template<>string TypeBase<Time_T>::value_find(ValueInfo *v)
 	{
 		for (int i = 0; i < _word_length; i++)
 		{
-			//cout << "byte_chars[" << i << "]" << cheat_hex(string(hex_log[(int)byte_chars[i]]) )<< endl;
-			switcheroo.origin[i] = bytes[i];	// byte_chars[i];  //atoi(hex_log[(int)byte_chars[i]].c_str());
+			switcheroo.origin[i] = bytes[i];
 		}
 
 	}
-    //unsigned char byte_temp[]= {0XF7,0X26,0X7C, 0X51};
-    unsigned long int _value = *reinterpret_cast<unsigned long int*>(switcheroo.origin);// correct number from: http://cboard.cprogramming.com/cplusplus-programming/80410-converting-hexadecimal-float.html
+    
+    unsigned long int _value = *reinterpret_cast<unsigned long int*>(switcheroo.origin);
 
-    //cout << "byte_temp[] =\t" << cheat_hex(byte_temp) << endl;
+    
     cout << "union version in hex from cheat_hex =\t" << cheat_hex(switcheroo.f ) << endl;
-    //cout << "union version in hex from cheat<long int> =\t" << cheat<unsigned long int>(switcheroo.f ) << endl;
+    
     cout << "union version in dec =\t" << switcheroo.f << endl;
 
     cout << "reinterpret_cast value in hex from cheat_hex =\t" << cheat_hex(_value ) << endl;
-    //cout << "reinterpret_cast value in hex from cheat<long int> =\t" << cheat<unsigned long int>(_value ) << endl;
+    
     cout << "reinterpret_cast value in dec =\t" << _value << endl;
 
-//    float fi = 35.7;
-//    double di = 34.5;
-//    int ii = 3;
-//    char ci = 'A';
-//    string si = "test";
-//    cout << "float test =\t" << cheat_hex((float)fi ) << endl;
-//    cout << "double test =\t" << cheat_hex(di ) << endl;
-//    cout << "int test =\t" << cheat_hex(ii ) << endl;
-//    cout << "char test =\t" << cheat_hex(ci ) << endl;
-//    cout << "string test =\t" << cheat_hex(si ) << endl;
-
     time_utility tu  = get_time_from_seconds(switcheroo.f, 1970);
-
 
     cout << "record time is: \t" << dec << tu.real_year << ":"<< std::setfill('0') << std::setw(2) << tu.cur_year_months_left<<":"<< tu.cur_month_days_left<<":"<< tu.cur_day_hours_left<<":"<< tu.cur_hour_minutes_left<<":"<< tu.cur_minute_seconds_left<< endl;
 
@@ -2349,25 +1804,6 @@ template<>string TypeBase<Time_T>::value_find(ValueInfo *v)
     std::ostringstream ss;
     ss << tu.real_year << ":"<< std::setw(2) << std::setfill('0')<< tu.cur_year_months_left<<":" << tu.cur_month_days_left<<":"<< tu.cur_day_hours_left<<":"<< tu.cur_hour_minutes_left<<":"<< tu.cur_minute_seconds_left;
     std::string s(ss.str());
-    //ftoa(_value, wave_length_char, 8);// do not work http://www.geeksforgeeks.org/convert-floating-point-number-string/
-
-    //*prepared_header_buffer << _value;
-
-    /*
-
-    Unless you're worried about performance, use string streams:
-
-    std::ostringstream ss;
-    ss << myFloat;
-    std::string s(ss.str());
-
-    If you're okay with Boost, lexical_cast<> is a convenient alternative:
-
-    std::string s = boost::lexical_cast<std::string>(_value);
-
-    http://stackoverflow.com/questions/2125880/converting-a-float-to-stdstring-in-c
-
-    */
 
     return s;
 
@@ -2376,16 +1812,6 @@ template<>string TypeBase<Time_T>::value_find(ValueInfo *v)
 void bind_query_type(Fl_Input_Choice*field_type, void* )
 {
 
-    //agency = new Agency(*value_info, *field_type, ?, *value_info);
-
-    //type_table[string(field_type->value())](header_buffer, (ValueInfo*)value_info); // move to get_value()
-    //cout << "field_type->value() =\t" << field_type->value() << endl;
-    /*
-    Type t= type_table[string(field_type->value())];
-    value_find<t>(NULL, NULL);   // as an ideal
-    */
-
-    //type_word_length[string(field_type->value())]((ValueInfo*)value_info);
     try
     {
         name_to_delegate[string(field_type->value())]->word_length_restrict((ValueInfo*)value_info);
@@ -2401,33 +1827,20 @@ void export_single_file(Fl_Menu_*m, string & input_file_name)
 {
 
     struct_name full_file_name = parse_file_name(input_file_name);
-
-    int i = 1;
-    int len =input_file_name.length();
-    //char input_file_chain[len + 1];
-    //input_file_chain[len] = '\0';
-	const char *input_file_chain = input_file_name.c_str();
+    const char *input_file_chain = input_file_name.c_str();
     
-    //for(int i = 0; i < len; i ++)input_file_chain[i] = input_file_name.at(i);
 
     string output_file_name = full_file_name.path + full_file_name.name + ".csv";
     cout << "output_file_name =\t" << output_file_name << endl;
-//            int j;
-//            cout << "input j for a pause =\t";
-//            cin >> j;
-    len = output_file_name.length();
-    //char output_file_chain[len + 1];
-    //output_file_chain[len] = '\0';
-	const char *output_file_chain = output_file_name.c_str();
-    cout << "output_file_name.length() =\t" << len << endl;
-    //for(int i = 0; i < len; i ++)output_file_chain[i] = output_file_name.at(i);
 
-    //std::ifstream file_load;
-    //file_load.open(input_file_name.c_str());
-    //(menu_main_menu+1)->callback((Fl_Callback*)open_hex, input_file_chain);
+    len = output_file_name.length();
+
+    const char *output_file_chain = output_file_name.c_str();
+    cout << "output_file_name.length() =\t" << len << endl;
+
     cout << "before call open_hex input_file_chain =\t" << input_file_chain << endl;
     open_hex(m, (void*)input_file_chain);
-    //if(file_load.is_open()) {
+
     std::ofstream file_output(output_file_name.c_str(), ios::out);  // default use the same name and path;
     if(file_output.is_open())
     {
@@ -2443,40 +1856,19 @@ void export_single_file(Fl_Menu_*m, string & input_file_name)
         buffer0[16] = '\0';
 		internal_itoa(484, buffer0, 10);
         value_info->offset_dec(buffer0);
-        //vector<output_pair> contents(1451);
+        
         vector<output_tri> contents(1451);
         contents.reserve(1451);
         float index = 350.00;
         int account = 1;
         for(int i = 484; i < 484 + 1451 * 8; i += 8)   //current_file_size-484
         {
-            //int i=484;
-            /*
-                        char file_offset_char_dec[17];
-                        file_offset_char_dec[16] = '\0';
-                        internal_itoa(i,file_offset_char_dec, 10);
-                        value_info->offset_dec(file_offset_char_dec) ;
-
-                        internal_itoa(i, file_offset_char_dec, 16);
-                        char refine_char_hex[17];
-                        refine_char_hex[16] = '\0';
-                        refine_hex(refine_char_hex, file_offset_char_dec);
-
-                        value_info->offset_hex(refine_char_hex);
-            */
             value_info->offset(i);
-            //int j; cout << "input j for a pause =\t";
-            //cin >> j;
-            //cout << "file_offset_char_dec==offset current to hex=\t"<<string(file_offset_char_dec)<< endl;
-            //cout << "refine_char_hex==offset =\t"<<string(refine_char_hex)<< endl;
-
-            output_tri o;   //output_pair o;
+            output_tri o; 
             std::ostringstream buffer_index;
             buffer_index << index;
 
             o.x = buffer_index.str();
-
-            //o.y = (*(name_to_delegate[string("double")]->value_find))(value_info);
 
             o.y1 = name_to_delegate[value_info->field_type()]->value_find(value_info);
 
@@ -2491,12 +1883,10 @@ void export_single_file(Fl_Menu_*m, string & input_file_name)
 
             cout<< "contents[" << account << "].x =\t" << contents.back().x << "\tcontents[" << account << "].y1 =\t" << contents.back().y1 << "\tcontents[" << account << "].y2 =\t" << contents.back().y2 << endl;
             file_output << contents.back().x << "," << contents.back().y1 << "," << contents.back().y2 << "\n";
-            //cout << "index =\t"<<index<< endl;
+
             index ++;
             account ++;
         }
-
-        //}
 
     }
     file_output.close();
@@ -2508,7 +1898,6 @@ void file_export(Fl_Menu_*m, void*)
 
 
     Fl_File_Chooser *temp_fcho = (Fl_File_Chooser *)0;
-    //char* const default_file = "sample00000.asd";
 
     if(current_file_size <= 0)
     {
@@ -2529,8 +1918,6 @@ void file_export(Fl_Menu_*m, void*)
 
             for ( int t = 1; t <= temp_fcho->count(); t ++ )
             {
-                //const char *filename = temp_fcho->value(t);
-                //cout << "filename["<<t<<"] =\t" << string(filename) << endl;
                 string input_file_name = temp_fcho->value(t);
                 export_single_file(m, input_file_name);
 
@@ -2549,9 +1936,9 @@ void file_export(Fl_Menu_*m, void*)
 void refresh_input(Fl_Text_Display*, void*)
 {
     cout << "In Text_Desplay Refresh" << endl;
-    //offset_hex->hide();
+
     offset_hex->position(830, 315);
-    //offset_dec->hide();
+
     offset_dec->position(830, 357);
     offset_hex->show();
     offset_dec->show();
@@ -2565,9 +1952,9 @@ void refresh_input(Fl_Text_Display*, void*)
 void refresh_offset(Fl_Group*, void*)
 {
     cout << "In Group Refresh" << endl;
-    //offset_hex->hide();
+
     offset_hex->position(830, 315);
-    //offset_dec->hide();
+
     offset_dec->position(830, 357);
     offset_hex->show();
     offset_dec->show();
@@ -2580,23 +1967,11 @@ void refresh_offset(Fl_Group*, void*)
 
 int ValueInfo::offset()
 {
-//    if(0 == atoi(::offset_dec->value()) || 0 == atoi(::_offset_dec->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific offset to parse - Offset must be a plain decimal number", "Offset");
-//        if(temp_chain != (const char *)0)this->offset_dec(temp_chain);
-//    }
     if(-1 == this->_offset)this->_offset = atoi(this->offset_dec().c_str());
     return this->_offset;
 }
 int ValueInfo::bytes_number()
 {
-//    if(0 == atoi(::bytes_number->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific bytes number to parse many fields at a time - must be a decimal number larger than 0", "Bytes number");
-//        if(temp_chain != (const char *)0)::bytes_number->value(temp_chain);
-//    }
     if(-1 == this->_bytes_number)this->_bytes_number = atoi(::bytes_number->value());
     return this->_bytes_number;
 }
@@ -2609,100 +1984,51 @@ Delegate * const ValueInfo::type_delegate()
 
 string ValueInfo::_offset_hex()
 {
-//    if(0 == atoi(::_offset_hex->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific offset to parse - offset must be a plain hexadecimal number", "Offset");
-//        if(temp_chain != (const char *)0)this->_offset_hex(temp_chain);
-//    }
-//    else
     this->___offset_hex = ::_offset_hex;
     return this->___offset_hex->value();
 }
 string ValueInfo::_offset_dec()
 {
-//    if(0 == atoi(::_offset_dec->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific offset to parse - offset must be a plain decimal number", "Offset");
-//        if(temp_chain != (const char *)0)this->_offset_dec(temp_chain);
-//    }
-//    else
     this->___offset_dec = ::_offset_dec;
     return this->___offset_dec->value();
 }
 string ValueInfo::offset_hex()
 {
-//    if(0 == atoi(::offset_hex->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific offset to parse - offset must be a plain hexadecimal number", "Offset");
-//        if(temp_chain != (const char *)0)this->offset_hex(temp_chain);
-//    }
-//    else
     this->__offset_hex = ::offset_hex;
     return this->__offset_hex->value();
 }
 string ValueInfo::offset_dec()
 {
-//    if(0 == atoi(::offset_dec->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific offset to parse - offset must be a plain decimal number", "Offset");
-//        if(temp_chain != (const char *)0)this->offset_dec(temp_chain);
-//    }
-//    else
     this->__offset_dec = ::offset_dec;
     return this->__offset_dec->value();
 }
 string ValueInfo::bytes_number_str()
 {
-//    if(0 == atoi(::bytes_number->value()))
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific byte number to parse - byte number must be a plain decimal number", "Byte Number");
-//        if(temp_chain != (const char *)0)this->bytes_number_str(temp_chain);
-//    }
-//    else
     this->_bytes_number_str = ::bytes_number;
     return this->_bytes_number_str->value();
 }
 string ValueInfo::field_type()
 {
-//    if(0 == string(::field_type->value()).length())
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific field type to parse - field type must be a given string at present", "Field Type");
-//        if(temp_chain != (const char *)0)this->field_type(temp_chain);
-//    }
-//    else
     this->_field_type = ::field_type;
     return this->_field_type->value();
 }
 string ValueInfo::header_buffer()
 {
-//    if(0 == string(::header_buffer->text()).length())
-//    {
-//        const char *temp_chain = (const char *)0;
-//        temp_chain = fl_input("Enter the specific header buffer for parse - header buffer must be a serial of string", "Header Buffer");
-//        if(temp_chain != (const char *)0)this->header_buffer(temp_chain);
-//    }
-//    else
     this->_header_buffer = ::header_buffer;
     return this->_header_buffer->text();
 }
 
 int const restrict_bytes_number(ValueInfo *vi, Fl_Input *const the, int const _value)
 {
-    //ValueInfo * value_info = (ValueInfo*)_value_info;
+
     int word_length = name_to_delegate[vi->field_type()]->word_length();
     int input_length;
 
-    input_length = _value;  //atoi(the->value());
+    input_length = _value;
     if(input_length == 0)input_length = 1;
 
     if(input_length < 0)input_length = -input_length;
-    //if(input_length > current_file_size)input_length = current_file_size;
+
     int offset_length = atoi(vi->offset_dec().c_str());
     int left = current_file_size - offset_length;
 
@@ -2741,24 +2067,13 @@ string hex_restrict_to_dec(Fl_Input *const the, string const & _value)
 
     if(temp == "")temp = "0X000000";
 
-//    try
-//    {
-//        temp = the->value();
-//        if(temp == "")temp = "0X000000";
-//    }
-//    catch(exception e)
-//    {
-//        throw e;
-//        //return;
-//    }
-
     string where_to_get_byte="";
 
     if (temp.substr(0,1)== "0X")temp = temp.substr(2, temp.length()-1);
     cout << "as the->value() =\t" << temp << endl;
     where_to_get_byte = keep_chars(temp, field_range);
 
-    //cout << "before process where_to_get_byte =\t" << where_to_get_byte << endl;
+
     int i = 0;
     while(i < where_to_get_byte.length() && ('0' == where_to_get_byte.at(i++))) {}	// remove '0' before effective numbers
     where_to_get_byte = where_to_get_byte.substr(i-1, where_to_get_byte.length()-1);
@@ -2768,8 +2083,6 @@ string hex_restrict_to_dec(Fl_Input *const the, string const & _value)
 
 
     int file_offset = numparse(multi_base(where_to_get_byte, "16"));
-    //std::string s = std::to_string(file_offset);
-
 
     char buffer [17];
     buffer[16] = '\0';	// no "0X" mark
@@ -2778,8 +2091,7 @@ string hex_restrict_to_dec(Fl_Input *const the, string const & _value)
     {
         file_offset = current_file_size;
         internal_itoa(file_offset, buffer, 16);
-        cout<< "over trunk::buffer[6] =\t" << string(buffer)<<endl;
-        //buffer[6] = '\0';
+        cout << "over trunk::buffer[6] =\t" << string(buffer) << endl;
     }
     else
     {
@@ -2789,7 +2101,7 @@ string hex_restrict_to_dec(Fl_Input *const the, string const & _value)
             buffer[i] = where_to_get_byte.at(i);
         }
         buffer[where_to_get_byte.length()] = '\0';
-        cout<< "direct::buffer[6] =\t" << string(buffer)<<endl;
+        cout << "direct::buffer[6] =\t" << string(buffer)<<endl;
     }
     cout << "file_offset =\t" << file_offset << endl;
 
@@ -2803,27 +2115,16 @@ string hex_restrict_to_dec(Fl_Input *const the, string const & _value)
     buffer_dec[16] = '\0';
 
     return internal_itoa(file_offset, buffer_dec, 10);
-
-
-//    for(int i=0; i< s.length(); i++)
-//    {
-//        refined[i]=s.at(i);
-//
-//    }
-
-    //internal_itoa(file_offset, refined, 10);
-    //vi->offset_dec(string(refined));
-
 }
 
 
 string dec_restrict_to_hex(Fl_Input *const the, string const & _value)
 {
 
-    int real_value = atoi(_value.c_str());//atoi(the->value());
+    int real_value = atoi(_value.c_str());
 
     if(real_value < 0)real_value = -real_value;
-    //if(real_value > current_file_size)real_value = current_file_size;
+
     int word_length = value_info->bytes_number();
     int left = current_file_size - word_length;
     if(0 ==current_file_size||left < 0)real_value = 0;
