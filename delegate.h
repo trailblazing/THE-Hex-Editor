@@ -192,7 +192,7 @@ public:
         : obj(& _obj) {
         if(!obj) {
             cerr << endl << "empty object!" << endl;
-            //cin.get();
+            // cin.get();
             exit(1);
         }
 
@@ -310,7 +310,7 @@ public:
 
         if(!obj) {
             cerr << endl << "empty object!" << endl;
-            cin.get();
+            // cin.get();
             exit(1);
         }
 
