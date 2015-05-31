@@ -190,15 +190,10 @@ public:
     template<typename bailee, typename bailee_return, typename bailee_require>	// _Convention see msdn: Argument Passing and Naming Conventions
     Agency(bailee_return &caller_require, bailee & _obj, bailee_return(bailee::*_inv)(bailee_require) , bailee_require & input_pamater)
         : obj(& _obj) {
-
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-                //exit(1);
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            //cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
@@ -213,7 +208,7 @@ public:
     template<typename bailee, typename bailee_return, typename bailee_require>
     void strategy(bailee_return caller_require, bailee_return (bailee::*_inv)(bailee_require), bailee_require & input_pamater) {
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor<bailee, bailee_return, bailee_require> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor<bailee, bailee_return, bailee_require> *>(invoke_functee);
         _invoke_functor<bailee, bailee_return, bailee_require> *invoke = new _invoke_functor<bailee, bailee_return, bailee_require>(_inv);
         invoke_functee = (void *)invoke;
         del = _release<bailee, bailee_return, bailee_require>;
@@ -229,7 +224,7 @@ public:
 
 
     ~Agency() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 
@@ -256,22 +251,16 @@ public:
                         )
         : obj(& _obj) {
 
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            // cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
         invoke_functee = (void *) new _invoke_functor_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1>(_inv);
         del = _release_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1>;
-
         inv = _transmit_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1>;
-
-        //_____________________________________________________________________________________________
 
     }
 
@@ -279,7 +268,7 @@ public:
     void strategy(bailee_return (bailee::*_inv)(bailee_require_0, bailee_require_1)
                  ) {
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1> *>(invoke_functee);
         _invoke_functor_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1> *invoke = new _invoke_functor_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1>(_inv);
         invoke_functee = (void *)invoke;
         del = _release_return_double_in<caller_require, bailee, bailee_return, bailee_require_0, bailee_require_1>;
@@ -295,7 +284,7 @@ public:
 
 
     ~AgencyReturnDoubleIn() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 
@@ -319,22 +308,16 @@ public:
     AgencyReturn(bailee & _obj, bailee_return(bailee::*_inv)(bailee_require))
         : obj(& _obj) {
 
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
         invoke_functee = (void *) new _invoke_functor_return<caller_require, bailee, bailee_return, bailee_require>(_inv);
         del = _release_return<caller_require, bailee, bailee_return, bailee_require>;
-
         inv = _transmit_return<caller_require, bailee, bailee_return, bailee_require>;
-
-        //_____________________________________________________________________________________________
 
     }
 
@@ -343,7 +326,7 @@ public:
     template<typename bailee, typename bailee_return, typename bailee_require>
     void strategy(bailee_return (bailee::*_inv)(bailee_require)) { 
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor_return<caller_require, bailee, bailee_return, bailee_require> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor_return<caller_require, bailee, bailee_return, bailee_require> *>(invoke_functee);
         _invoke_functor_return<caller_require, bailee, bailee_return, bailee_require> *invoke = new _invoke_functor_return<caller_require, bailee, bailee_return, bailee_require>(_inv);
         invoke_functee = (void *)invoke;
         del = _release_return<caller_require, bailee, bailee_return, bailee_require>;
@@ -359,7 +342,7 @@ public:
 
 
     ~AgencyReturn() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 
@@ -381,13 +364,10 @@ public:
     AgencyReturnEasy(bailee & _obj, FT*_inv)
         : obj(& _obj) {
 
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            // cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
@@ -400,7 +380,7 @@ public:
     template<typename bailee, typename FT>
     void strategy(FT *_inv) { 
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor_return_easy<FT> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor_return_easy<FT> *>(invoke_functee);
         _invoke_functor_return_easy<FT> *invoke = new _invoke_functor_return_easy<FT>(_inv);
         invoke_functee = (void *)invoke;
         del = _release_return_easy<FT>;
@@ -414,7 +394,7 @@ public:
 
 
     ~AgencyReturnEasy() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 
@@ -437,13 +417,10 @@ public:
     AgencyRead(bailee & _obj, bailee_return(bailee::*_inv)())
         : obj(& _obj) {
 
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            // cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
@@ -458,7 +435,7 @@ public:
     template<typename bailee, typename bailee_return>
     void strategy(bailee_return (bailee::*_inv)()) {
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor_return_read<caller_require, bailee, bailee_return> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor_return_read<caller_require, bailee, bailee_return> *>(invoke_functee);
         _invoke_functor_return_read<caller_require, bailee, bailee_return> *invoke = new _invoke_functor_return_read<caller_require, bailee, bailee_return>(_inv);
         invoke_functee = (void *)invoke;
         del = _release_return_read<caller_require, bailee, bailee_return>;
@@ -474,7 +451,7 @@ public:
 
 
     ~AgencyRead() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 };
@@ -499,13 +476,10 @@ public:
     AgencyInput(bailee & _obj, bailee_return(bailee::*_inv)(bailee_require))
         : obj(& _obj) {
 
-        try {
-            if(!obj) {
-                cerr<<endl<<"empty object!"<<endl;
-                cin.get();
-            }
-        } catch(exception e) {
-            throw e;
+        if(!obj) {
+            cerr << endl << "empty object!" << endl;
+            // cin.get();
+            exit(1);
         }
 
         invoke_functee = (void *)0;
@@ -514,20 +488,16 @@ public:
 
         inv = _transmit_input<bailee, bailee_return, bailee_require>;
 
-        //_____________________________________________________________________________________________
-
     }
 
     template<typename bailee, typename bailee_return, typename bailee_require>
     void strategy(bailee_return (bailee::*_inv)(bailee_require)) {
 
-        if(NULL != invoke_functee ) delete static_cast<_invoke_functor<bailee, bailee_return, bailee_require> *>(invoke_functee);
+        if(nullptr != invoke_functee ) delete static_cast<_invoke_functor<bailee, bailee_return, bailee_require> *>(invoke_functee);
         _invoke_functor<bailee, bailee_return, bailee_require> *invoke = new _invoke_functor<bailee, bailee_return, bailee_require>(_inv);
         invoke_functee = (void *)invoke;
         del = _release<bailee, bailee_return, bailee_require>;
-
         inv = _transmit_input<bailee, bailee_return, bailee_require>;
-
     }
     template<typename bailee_require>
     void operator()(bailee_require & input_pamater) {
@@ -536,7 +506,7 @@ public:
 
 
     ~AgencyInput() {
-        if(NULL != invoke_functee )
+        if(nullptr != invoke_functee )
             del(invoke_functee);
     }
 
@@ -633,7 +603,7 @@ public:
     }
 
     ~ioperator() {
-        if(NULL !=  invoke_functee)
+        if(nullptr !=  invoke_functee)
             del(invoke_functee);
     }
 
@@ -661,7 +631,7 @@ public:
         inv(bailee_returne, obj, invoke_functee);
     }
     ~ioperator_read() {
-        if(NULL !=  invoke_functee)
+        if(nullptr !=  invoke_functee)
             del(invoke_functee);
     }
 };
@@ -688,7 +658,7 @@ protected:
     }
 
     ~ioperator_static() {
-        if(NULL !=  invoke_functee)
+        if(nullptr !=  invoke_functee)
             del(invoke_functee);
     }
 
