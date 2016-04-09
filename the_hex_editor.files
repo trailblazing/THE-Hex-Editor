@@ -10,3 +10,14 @@ Specio.h
 util.cxx
 util.h
 Makefile
+_defs.h
+asd.h
+delegate.h
+GPS.h
+main.cxx
+main.h
+source.cxx
+source.h
+Specio.h
+util.cxx
+util.h
