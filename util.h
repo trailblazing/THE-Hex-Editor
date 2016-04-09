@@ -17,8 +17,11 @@
 /* You should have received a copy of the GNU General Public License */
 /* along with this program; if not, write to the Free Software */
 /* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
-#define WIN32
+
+//#define WIN32
+
 #define NDEBUG
+
 #ifdef WIN32 && NDEBUG
 
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
@@ -37,13 +40,15 @@
 
 #include <bitset>
 #include <typeinfo>
+#include <iostream>
+
 using namespace std;
 
 /****** Namespace For Commonly Used Variables ******/
 /****** Define Them So Temporary Variables Are Not Initialized For Inline Functions Are Called A Ridiculous Amount Of Times. Saves Memory! ******/
 namespace util {
-extern string ans, bit;
-extern int incr, range, value, count;
+    extern string ans, bit;
+    extern int incr, range, value, count;
 }
 
 /****** Manual Integer to String Converter ******/
@@ -53,13 +58,13 @@ string numparse(long long int inp);
 int numparse(string inp);
 
 /****** Multi Base Conversion -From String To Decimal ******/
-string multi_base(string input1, string from_base);		// base is to identify the number system
+string multi_base(string input1, string from_base);     // base is to identify the number system
 
 /****** Multi Base Unconversion - From Decimal Strings ******/
-string umulti_base(string input1, string to_base);		// base is to identify the number system
+string umulti_base(string input1, string to_base);      // base is to identify the number system
 
 /****** Multi Base Unconversion - From Decimal Integers ******/
-inline string umulti_base(int input1, int to_base)		// base is to identify the number system
+inline string umulti_base(int input1, int to_base)      // base is to identify the number system
 {
 
     util::ans = "";
@@ -100,58 +105,59 @@ void reverse(char *str, int len);
 int intToStr(int x, char str[], int d);
 void ftoa(float n, char *res, int afterpoint);
 
-char* internal_itoa(int value, char* result, int base);
+char *internal_itoa(int value, char *result, int base);
 
 template<typename S>struct _func_true {
 
     S  v;
-    _func_true(S _v) {
+    _func_true(S _v)
+    {
         v = _v;
     }
 
 };
 
-template<typename Type>std::ostream & _media_func(std::ostream & out, void * f)
+template<typename Type>std::ostream &_media_func(std::ostream &out, void *f)
 {
 
-    out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
-    out.setf ( std::ios::showbase );                  // activate showbase
+    out.setf(std::ios::hex, std::ios::basefield);     // set hex as the basefield
+    out.setf(std::ios::showbase);                     // activate showbase
 
     out << showbase                 // show the 0x prefix
         << internal                 // fill between the prefix and the number
         << std::setfill('0');       // fill with 0s, cant be '\0'
 
-    out <<std::hex << std::setw(18) << std::setfill('0') << (static_cast<_func_true<Type>*>(f))->v; //out << (Type)(*static_cast<Type*>(v)) << endl;
+    out << std::hex << std::setw(18) << std::setfill('0') << (static_cast<_func_true<Type>*>(f))->v; //out << (Type)(*static_cast<Type*>(v)) << endl;
 
-    out.unsetf ( std::ios::hex);
-    out.unsetf ( std::ios::basefield );
-    out.unsetf ( std::ios::showbase);
+    out.unsetf(std::ios::hex);
+    out.unsetf(std::ios::basefield);
+    out.unsetf(std::ios::showbase);
 
     return out;
 
 }
 
-template<typename Type>std::ostream & _media_true(std::ostream & out, void * v) // does not work, because of void * point to basic type for example long int lead data lost
+template<typename Type>std::ostream &_media_true(std::ostream &out, void *v)    // does not work, because of void * point to basic type for example long int lead data lost
 {
 
-    out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
-    out.setf ( std::ios::showbase );                  // activate showbase
+    out.setf(std::ios::hex, std::ios::basefield);     // set hex as the basefield
+    out.setf(std::ios::showbase);                     // activate showbase
 
     out << showbase             // show the 0x prefix
         << internal             // fill between the prefix and the number
         << std::setfill('0');   // fill with 0s, cant be '\0'
 
-    out <<std::hex << std::setw(18) << std::setfill('0') << setprecision(16) << (Type)(*static_cast<Type*>(v)); //out << (Type)(*static_cast<Type*>(v)) << endl;
+    out << std::hex << std::setw(18) << std::setfill('0') << setprecision(16) << (Type)(*static_cast<Type *>(v)); //out << (Type)(*static_cast<Type*>(v)) << endl;
 
-    out.unsetf ( std::ios::hex);
-    out.unsetf ( std::ios::basefield );
-    out.unsetf ( std::ios::showbase);
+    out.unsetf(std::ios::hex);
+    out.unsetf(std::ios::basefield);
+    out.unsetf(std::ios::showbase);
 
     return out;
 
 }
 
-template<typename T>void _del_func(void* f)
+template<typename T>void _del_func(void *f)
 {
     delete static_cast<_func_true<T> *>(f);
 }
@@ -159,13 +165,14 @@ template<typename T>void _del_func(void* f)
 struct cheat_hex {
 protected:
 
-    void * _func;
-    std::ostream & (* _media)(std::ostream & out, void *);
+    void *_func;
+    std::ostream &(* _media)(std::ostream &out, void *);
     void (* _del)(void *);
 public:
 
-    ~cheat_hex() {
-        if((void*)0 != _func)_del(_func);
+    ~cheat_hex()
+    {
+        if((void *)0 != _func)_del(_func);
     }
 
     template<typename Special>
@@ -177,27 +184,29 @@ public:
         _del = _del_func<Special>;
     }
 
-    std::ostream & operator << (std::ostream & out) {
+    std::ostream &operator << (std::ostream &out)
+    {
         return _media(out, _func);
     }
 
-    friend inline std::ostream & operator << (std::ostream & out, const cheat_hex & c) {
+    friend inline std::ostream &operator << (std::ostream &out, const cheat_hex &c)
+    {
         return c._media(out, c._func);
     }
 };
 
 
 template<typename Y>struct cheat {
-    cheat(Y & y):value(y) {}
+    cheat(Y &y): value(y) {}
     Y value;
 };
 
 template<typename T>
-std::ostream & operator << (std::ostream & out, const cheat<T> &c)
+std::ostream &operator << (std::ostream &out, const cheat<T> &c)
 {
 
-    out.setf ( std::ios::hex, std::ios::basefield );  // set hex as the basefield
-    out.setf ( std::ios::showbase );                  // activate showbase
+    out.setf(std::ios::hex, std::ios::basefield);     // set hex as the basefield
+    out.setf(std::ios::showbase);                     // activate showbase
 
     out << showbase             // show the 0x prefix
         << internal             // fill between the prefix and the number
@@ -205,24 +214,27 @@ std::ostream & operator << (std::ostream & out, const cheat<T> &c)
     out.width(18);
     out << std::hex << std::setw(18) << std::setfill('0') << setprecision(16) << c.value;
 
-    out.unsetf ( std::ios::hex);
-    out.unsetf ( std::ios::basefield );
-    out.unsetf ( std::ios::showbase);
+    out.unsetf(std::ios::hex);
+    out.unsetf(std::ios::basefield);
+    out.unsetf(std::ios::showbase);
 
     return out;
 }
 
 template<typename T>
-std::ostream & operator << (std::ostream & out, const vector<T>& v)
+std::ostream &operator << (std::ostream &out, const vector<T> &v)
 {
-    out << (std::basic_ostream<char>)("[");
-    size_t last = v.size() - 1;
+    out << '[';  //(std::basic_ostream<char>)("[");
+        size_t last = v.size() - 1;
+
     for(size_t i = 0; i < v.size(); ++i) {
         out << v[i];
-        if (i != last)
-            out << (std::basic_ostream<char>)(", ");
+
+        if(i != last)
+            out << ', '; //(std::basic_ostream<char>)(", ");
     }
-    out << (std::basic_ostream<char>)("]");
+
+    out << ']';  // (std::basic_ostream<char>)("]");
 
     return out;
 
@@ -248,6 +260,6 @@ struct struct_name {
     string extend;
 };
 
-struct_name parse_file_name(string const & t);
+struct_name parse_file_name(string const &t);
 
 #endif // _UTIL_H_

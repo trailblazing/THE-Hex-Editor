@@ -11,12 +11,14 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC = 
+INC =
 CFLAGS = -std=c++0x -Wall `fltk-config --cxxflags`
 RESINC = 
-LIBDIR = 
-LIB = 
-LDFLAGS = `fltk-config --ldstaticflags`
+LIBDIR =
+#LIB = -l/usr/lib64/libfltk.a -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
+LIB = -lfltk -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
+#LDFLAGS = `fltk-config --ldstaticflags` `fltk-config --prefix`
+LDFLAGS = `fltk-config --ldflags`
 
 INC_DEBUG = $(INC)
 CFLAGS_DEBUG = $(CFLAGS) -std=c++11 -std=c++0x -g

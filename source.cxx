@@ -1833,7 +1833,7 @@ void export_single_file(Fl_Menu_*m, string & input_file_name)
     string output_file_name = full_file_name.path + full_file_name.name + ".csv";
     cout << "output_file_name =\t" << output_file_name << endl;
 
-    len = output_file_name.length();
+    auto len = output_file_name.length();
 
     const char *output_file_chain = output_file_name.c_str();
     cout << "output_file_name.length() =\t" << len << endl;
@@ -1965,12 +1965,12 @@ void refresh_offset(Fl_Group*, void*)
 
 }
 
-int ValueInfo::offset()
+unsigned int ValueInfo::offset()
 {
     if(-1 == this->_offset)this->_offset = atoi(this->offset_dec().c_str());
     return this->_offset;
 }
-int ValueInfo::bytes_number()
+unsigned int ValueInfo::bytes_number()
 {
     if(-1 == this->_bytes_number)this->_bytes_number = atoi(::bytes_number->value());
     return this->_bytes_number;

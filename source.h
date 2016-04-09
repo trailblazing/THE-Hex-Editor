@@ -45,11 +45,11 @@
 #include <bitset>
 #include <iomanip>
 
-#include"asd.h"
+#include "asd.h"
 //#include"TIME.H"
 
-#include"GPS.H"
-#include"Specio.h"
+#include "GPS.h"
+#include "Specio.h"
 
 
 struct ValueInfo;
@@ -212,8 +212,8 @@ void update_save(int, int nInserted, int nDeleted,int, const char*, void* v);
 struct ValueInfo
 {
 protected:
-    int    _offset;
-    int    _bytes_number;
+    unsigned int    _offset;
+    unsigned int    _bytes_number;
     Delegate *      _type_delegate;
 
     Fl_Input *      ___offset_hex;
@@ -224,8 +224,8 @@ protected:
     Fl_Input_Choice * _field_type;
     Fl_Text_Buffer *    _header_buffer;
 
-    ValueInfo(int _offset
-              , int _bytes_number
+    ValueInfo(unsigned int _offset
+              , unsigned int _bytes_number
               , Delegate * _type_delegate
               , Fl_Input * _offset_hex
               , Fl_Input * _offset_dec
@@ -266,8 +266,8 @@ public:
     }
 
 
-    int offset();
-    int bytes_number();
+    unsigned int offset();
+    unsigned int bytes_number();
     Delegate * const type_delegate();
     string _offset_hex();
     string _offset_dec();
